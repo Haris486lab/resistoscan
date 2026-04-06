@@ -55,7 +55,7 @@ document.getElementById("uploadForm").onsubmit = async function(e) {
 
     let formData = new FormData(this);
 
-    let response = await fetch("/upload", {
+    let res = await fetch("https://resistoscan-2.onrender.com/upload", {
         method: "POST",
         body: formData
     });
