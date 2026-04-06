@@ -18,7 +18,6 @@ def upload():
 
     def calculate(df):
         iti = df.sum().sum()
-
         if iti < 100:
             risk = "Low"
         elif iti < 300:
@@ -27,7 +26,6 @@ def upload():
             risk = "High"
         else:
             risk = "Critical"
-
         return iti, risk
 
     file1 = request.files.get("file1")
@@ -36,22 +34,24 @@ def upload():
     df1 = pd.read_csv(file1)
     iti1, risk1 = calculate(df1)
 
+    # If second dataset exists → compare
     if file2 and file2.filename != "":
         df2 = pd.read_csv(file2)
         iti2, risk2 = calculate(df2)
 
         return jsonify({
             "comparison": True,
-            "d1": {"iti": round(iti1, 2), "risk": risk1},
-            "d2": {"iti": round(iti2, 2), "risk": risk2}
+            "d1": {"iti": round(iti1,2), "risk": risk1},
+            "d2": {"iti": round(iti2,2), "risk": risk2}
         })
 
+    # Otherwise single dataset
     return jsonify({
         "comparison": False,
-        "iti": round(iti1, 2),
+        "iti": round(iti1,2),
         "risk": risk1
     })
-
+   
 
 # Run app
 if __name__ == "__main__":
