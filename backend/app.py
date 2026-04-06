@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import io
 import base64
+import os
 
 # ✅ DEFINE APP FIRST (VERY IMPORTANT)
 app = Flask(__name__, template_folder="templates")
@@ -82,5 +83,7 @@ def upload():
 
 
 # ✅ RUN
+
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=10000)
+    port = int(os.environ.get("PORT", 10000))
+    app.run(host="0.0.0.0", port=port)
