@@ -1,1 +1,34 @@
-<h1>ResistoScan is working ✅</h1>
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>ResistoScan AI 🚀</h2>
+
+<form id="form">
+  <input type="file" name="file1" required>
+  <button type="submit">Analyze</button>
+</form>
+
+<div id="result"></div>
+
+<script>
+document.getElementById("form").onsubmit = async function(e){
+  e.preventDefault();
+
+  let formData = new FormData(this);
+
+  let res = await fetch("/upload", {
+    method: "POST",
+    body: formData
+  });
+
+  let data = await res.json();
+
+  document.getElementById("result").innerHTML =
+    "ITI: " + (data.iti || data.d1?.iti) +
+    "<br>Risk: " + (data.risk || data.d1?.risk);
+}
+</script>
+
+</body>
+</html>
