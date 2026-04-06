@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ResistoScan AI</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            background: #0f172a;
+            color: white;
+            text-align: center;
+            padding: 50px;
+        }
+
+        h1 { color: #22c55e; }
+
+        .box {
+            background: #1e293b;
+            padding: 30px;
+            border-radius: 10px;
+            width: 400px;
+            margin: auto;
+        }
+
+        button {
+            background: #22c55e;
+            border: none;
+            padding: 10px;
+            color: white;
+            cursor: pointer;
+        }
+
+        #result {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>🚀 ResistoScan AI</h1>
+
+<div class="box">
+    <form id="uploadForm">
+        <input type="file" name="file" required><br><br>
+        <button type="submit">Analyze</button>
+    </form>
+
+    <div id="result"></div>
+</div>
+
+<script>
+document.getElementById("uploadForm").onsubmit = async function(e) {
+    e.preventDefault();
+
+    let formData = new FormData(this);
+
+    let response = await fetch("/upload", {
+        method: "POST",
+        body: formData
+    });
+
+    let data = await response.json();
+
+    document.getElementById("result").innerHTML =
+        "ITI Score: " + data.ITI + "<br>" +
+        "Risk Level: " + data.Risk + "<br>" +
+        "Samples: " + data.Samples;
+};
+</script>
+
+</body>
+</html>
