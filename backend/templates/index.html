@@ -1,54 +1,88 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>ResistoScan</title>
-</head>
-<body style="text-align:center; font-family:Arial;">
+<title>ResistoScan AI</title>
 
-<h1>ResistoScan AI 🚀</h1>
+<style>
+body {
+    font-family: Arial;
+    background: #0f172a;
+    color: white;
+    text-align: center;
+    padding: 40px;
+}
+
+h1 { color: #22c55e; }
+
+.card {
+    background: #1e293b;
+    padding: 20px;
+    margin: 10px;
+    border-radius: 10px;
+    display: inline-block;
+    width: 200px;
+}
+
+.low { color: #22c55e; }
+.moderate { color: #eab308; }
+.high { color: #f97316; }
+.critical { color: #ef4444; }
+
+button {
+    background: #22c55e;
+    border: none;
+    padding: 10px 20px;
+    color: white;
+    border-radius: 6px;
+}
+</style>
+</head>
+
+<body>
+
+<h1>🧬 ResistoScan AI</h1>
+<p>AMR Risk Prediction Platform</p>
 
 <form id="form">
     <input type="file" name="file" required><br><br>
     <button type="submit">Analyze</button>
 </form>
 
-<div id="result"></div>
-<div id="plots"></div>
+<div id="dashboard"></div>
 
 <script>
-document.getElementById("form").addEventListener("submit", async function(e){
+document.getElementById("form").onsubmit = async function(e){
     e.preventDefault();
 
     let formData = new FormData(this);
 
-    try {
-        let res = await fetch("/upload", {
-            method: "POST",
-            body: formData
-        });
+    let res = await fetch("/upload", {
+        method: "POST",
+        body: formData
+    });
 
-        let data = await res.json();
+    let data = await res.json();
 
-        document.getElementById("result").innerHTML =
-            "<h3>Results</h3>" +
-            "ITI: " + data.ITI + "<br>" +
-            "Risk: " + data.Risk + "<br>";
+    let riskClass = data.Risk.toLowerCase();
 
-        document.getElementById("plots").innerHTML =
-            `<h3>Heatmap</h3>
-             <img src="data:image/png;base64,${data.heatmap}" width="400"/>
-             <h3>Bar Plot</h3>
-             <img src="data:image/png;base64,${data.barplot}" width="400"/>
-             <h3>PCA</h3>
-             <img src="data:image/png;base64,${data.pca}" width="400"/>
-             <h3>ML Importance</h3>
-             <img src="data:image/png;base64,${data.ml}" width="400"/>`;
+    document.getElementById("dashboard").innerHTML =
+    `
+    <div class="card">
+        <h3>ITI Score</h3>
+        <p>${data.ITI}</p>
+    </div>
 
-    } catch (err) {
-        document.getElementById("result").innerHTML =
-            "<b style='color:red'>Error:</b> " + err;
-    }
-});
+    <div class="card">
+        <h3>Samples</h3>
+        <p>${data.Samples}</p>
+    </div>
+
+    <div class="card">
+        <h3>Risk Level</h3>
+        <p class="${riskClass}">${data.Risk}</p>
+    </div>
+    `;
+};
 </script>
 
 </body>
