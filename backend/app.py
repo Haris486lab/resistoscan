@@ -1,35 +1,22 @@
-from flask import Flask, request, jsonify, render_template
-import pandas as pd
-import numpy as np
-
-app = Flask(__name__)
-
-# ✅ HOME ROUTE (Frontend UI)
-@app.route("/")
-def home():
-    return render_template("index.html")
-
-# ✅ UPLOAD API (Your ML logic)
 @app.route("/upload", methods=["POST"])
 def upload():
+    if "file" not in request.files:
+        return jsonify({"error": "No file uploaded"}), 400
+
     file = request.files["file"]
-    df = pd.read_csv(file)
 
-    # Example ITI calculation (replace with your logic if needed)
-    iti_score = df.sum().sum()
+    if file.filename == "":
+        return jsonify({"error": "Empty file"}), 400
 
-    if iti_score > 40000:
-        risk = "Critical"
-    elif iti_score > 20000:
-        risk = "High"
-    else:
-        risk = "Moderate"
+    try:
+        df = pd.read_csv(file)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+    iti, risk = calculate_iti(df)
 
     return jsonify({
-        "ITI": round(iti_score, 2),
+        "ITI": round(iti, 2),
         "Risk": risk,
         "Samples": len(df)
     })
-
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=10000)

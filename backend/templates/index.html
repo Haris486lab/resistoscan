@@ -1,73 +1,36 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>ResistoScan AI</title>
-
-    <style>
-        body {
-            font-family: Arial;
-            background: #0f172a;
-            color: white;
-            text-align: center;
-            padding: 50px;
-        }
-
-        h1 { color: #22c55e; }
-
-        .box {
-            background: #1e293b;
-            padding: 30px;
-            border-radius: 10px;
-            width: 400px;
-            margin: auto;
-        }
-
-        button {
-            background: #22c55e;
-            border: none;
-            padding: 10px;
-            color: white;
-            cursor: pointer;
-        }
-
-        #result {
-            margin-top: 20px;
-        }
-    </style>
-</head>
-
-<body>
-
-<h1>🚀 ResistoScan AI</h1>
-
-<div class="box">
-    <form id="uploadForm">
-        <input type="file" name="file" required><br><br>
-        <button type="submit">Analyze</button>
-    </form>
-
-    <div id="result"></div>
-</div>
-
 <script>
-document.getElementById("uploadForm").onsubmit = async function(e) {
+document.getElementById("form").addEventListener("submit", async function(e){
     e.preventDefault();
 
-    let formData = new FormData(this);
+    const fileInput = document.querySelector("input[type='file']");
+    
+    if (fileInput.files.length === 0) {
+        alert("Please select a file!");
+        return;
+    }
 
-    let res = await fetch("https://resistoscan-2.onrender.com/upload", {
-        method: "POST",
-        body: formData
-    });
+    const formData = new FormData();
+    formData.append("file", fileInput.files[0]);
 
-    let data = await response.json();
+    try {
+        const response = await fetch("/upload", {
+            method: "POST",
+            body: formData
+        });
 
-    document.getElementById("result").innerHTML =
-        "ITI Score: " + data.ITI + "<br>" +
-        "Risk Level: " + data.Risk + "<br>" +
-        "Samples: " + data.Samples;
-};
+        if (!response.ok) {
+            throw new Error("Server error: " + response.status);
+        }
+
+        const data = await response.json();
+
+        document.getElementById("result").innerHTML =
+            `<br><b>ITI:</b> ${data.ITI}<br>
+             <b>Risk:</b> ${data.Risk}<br>
+             <b>Samples:</b> ${data.Samples}`;
+    } catch (error) {
+        document.getElementById("result").innerHTML =
+            `<br><b style="color:red;">Error:</b> ${error}`;
+    }
+});
 </script>
-
-</body>
-</html>
