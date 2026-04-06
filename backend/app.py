@@ -7,11 +7,13 @@ app = Flask(__name__, template_folder="templates")
 
 
 # Home route
-@app.route("/")
-def home():
-    return render_template("index.html")
+@app.route("/upload", methods=["POST"])
+def upload():
 
+    if "file1" not in request.files:
+        return jsonify({"error": "No file uploaded"}), 400
 
+    file1 = request.files["file1"]
 # Upload route
 @app.route("/upload", methods=["POST"])
 def upload():

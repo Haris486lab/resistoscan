@@ -1,34 +1,32 @@
-<!DOCTYPE html>
-<html>
-<body>
-
-<h2>ResistoScan AI 🚀</h2>
-
-<form id="form">
-  <input type="file" name="file1" required>
-  <button type="submit">Analyze</button>
-</form>
-
-<div id="result"></div>
-
 <script>
 document.getElementById("form").onsubmit = async function(e){
   e.preventDefault();
 
-  let formData = new FormData(this);
+  let fileInput = document.querySelector("input[type='file']");
 
-  let res = await fetch("/upload", {
-    method: "POST",
-    body: formData
-  });
+  if (fileInput.files.length === 0){
+    alert("Please select a file!");
+    return;
+  }
 
-  let data = await res.json();
+  let formData = new FormData();
+  formData.append("file1", fileInput.files[0]);
 
-  document.getElementById("result").innerHTML =
-    "ITI: " + (data.iti || data.d1?.iti) +
-    "<br>Risk: " + (data.risk || data.d1?.risk);
+  try {
+    let res = await fetch("/upload", {
+      method: "POST",
+      body: formData
+    });
+
+    let data = await res.json();
+
+    document.getElementById("result").innerHTML =
+      "<br><b>ITI:</b> " + (data.iti || data.d1?.iti) +
+      "<br><b>Risk:</b> " + (data.risk || data.d1?.risk);
+
+  } catch (err) {
+    document.getElementById("result").innerHTML =
+      "<b style='color:red'>Error:</b> " + err;
+  }
 }
 </script>
-
-</body>
-</html>
