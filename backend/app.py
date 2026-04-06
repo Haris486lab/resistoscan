@@ -7,7 +7,9 @@ import base64
 import os
 
 # ✅ DEFINE APP FIRST (VERY IMPORTANT)
-app = Flask(__name__, template_folder="templates")
+@app.route("/")
+def home():
+    return render_template("index.html")
 
 
 # ✅ ITI FUNCTION

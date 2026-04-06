@@ -1,36 +1,13 @@
-<script>
-document.getElementById("form").addEventListener("submit", async function(e){
-    e.preventDefault();
+<!DOCTYPE html>
+<html>
+<body>
 
-    const fileInput = document.querySelector("input[type='file']");
-    
-    if (fileInput.files.length === 0) {
-        alert("Please select a file!");
-        return;
-    }
+<h2>ResistoScan Working ✅</h2>
 
-    const formData = new FormData();
-    formData.append("file", fileInput.files[0]);
+<form action="/upload" method="post" enctype="multipart/form-data">
+  <input type="file" name="file">
+  <input type="submit" value="Analyze">
+</form>
 
-    try {
-        const response = await fetch("/upload", {
-            method: "POST",
-            body: formData
-        });
-
-        if (!response.ok) {
-            throw new Error("Server error: " + response.status);
-        }
-
-        const data = await response.json();
-
-        document.getElementById("result").innerHTML =
-            `<br><b>ITI:</b> ${data.ITI}<br>
-             <b>Risk:</b> ${data.Risk}<br>
-             <b>Samples:</b> ${data.Samples}`;
-    } catch (error) {
-        document.getElementById("result").innerHTML =
-            `<br><b style="color:red;">Error:</b> ${error}`;
-    }
-});
-</script>
+</body>
+</html>
