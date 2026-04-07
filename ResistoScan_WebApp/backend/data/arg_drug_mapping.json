@@ -1,0 +1,31 @@
+{
+  "args": [
+    {"id": "tetM", "name": "tet(M)", "drug_class": "Tetracycline", "prevalence": 100, "mechanism": "Ribosomal protection"},
+    {"id": "tetO", "name": "tet(O)", "drug_class": "Tetracycline", "prevalence": 100, "mechanism": "Ribosomal protection"},
+    {"id": "tetQ", "name": "tet(Q)", "drug_class": "Tetracycline", "prevalence": 100, "mechanism": "Ribosomal protection"},
+    {"id": "tetW", "name": "tet(W)", "drug_class": "Tetracycline", "prevalence": 100, "mechanism": "Ribosomal protection"},
+    {"id": "sul1", "name": "sul1", "drug_class": "Sulfonamide", "prevalence": 95, "mechanism": "Target modification"},
+    {"id": "sul2", "name": "sul2", "drug_class": "Sulfonamide", "prevalence": 90, "mechanism": "Target modification"},
+    {"id": "qnrS", "name": "qnrS", "drug_class": "Fluoroquinolone", "prevalence": 85, "mechanism": "Target protection"},
+    {"id": "aadA", "name": "aadA", "drug_class": "Aminoglycoside", "prevalence": 80, "mechanism": "Antibiotic inactivation"},
+    {"id": "blaTEM", "name": "blaTEM", "drug_class": "Beta-lactam", "prevalence": 75, "mechanism": "Antibiotic inactivation"},
+    {"id": "ermB", "name": "erm(B)", "drug_class": "Macrolide", "prevalence": 70, "mechanism": "Target modification"},
+    {"id": "vanA", "name": "vanA", "drug_class": "Glycopeptide", "prevalence": 60, "mechanism": "Target modification"},
+    {"id": "mcr1", "name": "mcr-1", "drug_class": "Polymyxin", "prevalence": 40, "mechanism": "Target modification"},
+    {"id": "acrB", "name": "acrB", "drug_class": "Multidrug", "prevalence": 100, "mechanism": "Efflux pump"},
+    {"id": "mexB", "name": "mexB", "drug_class": "Multidrug", "prevalence": 100, "mechanism": "Efflux pump"},
+    {"id": "cat", "name": "cat", "drug_class": "Phenicol", "prevalence": 65, "mechanism": "Antibiotic inactivation"}
+  ],
+  "drug_classes": [
+    {"name": "Tetracycline", "color": "#dc2626", "priority": "HIGH"},
+    {"name": "Sulfonamide", "color": "#ea580c", "priority": "HIGH"},
+    {"name": "Fluoroquinolone", "color": "#f59e0b", "priority": "CRITICAL"},
+    {"name": "Aminoglycoside", "color": "#10b981", "priority": "HIGH"},
+    {"name": "Beta-lactam", "color": "#3b82f6", "priority": "CRITICAL"},
+    {"name": "Macrolide", "color": "#8b5cf6", "priority": "HIGH"},
+    {"name": "Glycopeptide", "color": "#ec4899", "priority": "CRITICAL"},
+    {"name": "Polymyxin", "color": "#14b8a6", "priority": "CRITICAL"},
+    {"name": "Multidrug", "color": "#64748b", "priority": "CRITICAL"},
+    {"name": "Phenicol", "color": "#f97316", "priority": "MEDIUM"}
+  ]
+}

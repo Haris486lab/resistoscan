@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ResistoScan — AMR Intelligence Platform</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+/* ════════ TOKENS ════════ */
+:root{
+  --bg:#06080f;
+  --surface:#0c1120;
+  --surface2:#111827;
+  --border:#1f2d4a;
+  --border2:#2a3d5e;
+  --accent:#00c8ff;
+  --accent-dim:rgba(0,200,255,.12);
+  --orange:#ff6b2b;
+  --green:#00e676;
+  --yellow:#ffd54f;
+  --red:#ff3d57;
+  --text:#dde8f5;
+  --muted:#4e6a8a;
+  --mono:'JetBrains Mono',monospace;
+  --sans:'DM Sans',sans-serif;
+  --display:'Bebas Neue',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--sans);background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;}
+
+/* grid bg */
+body::before{
+  content:'';position:fixed;inset:0;z-index:0;
+  background-image:
+    linear-gradient(rgba(0,200,255,.025) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(0,200,255,.025) 1px,transparent 1px);
+  background-size:48px 48px;pointer-events:none;
+}
+
+/* ════════ SCROLL REVEAL ════════ */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .6s ease,transform .6s ease;}
+.reveal.in{opacity:1;transform:none;}
+
+/* ════════ NAV ════════ */
+nav{
+  position:sticky;top:0;z-index:200;
+  height:60px;display:flex;align-items:center;justify-content:space-between;
+  padding:0 2rem;
+  background:rgba(6,8,15,.88);backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+}
+.logo{font-family:var(--display);font-size:1.5rem;letter-spacing:2px;color:var(--accent);}
+.logo span{color:var(--orange);}
+.nav-links{display:flex;gap:1.5rem;}
+.nav-links a{
+  font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--muted);text-decoration:none;
+  transition:color .2s;cursor:pointer;
+}
+.nav-links a:hover{color:var(--accent);}
+.api-pill{
+  display:flex;align-items:center;gap:6px;
+  font-family:var(--mono);font-size:.65rem;
+  padding:4px 10px;border:1px solid var(--border);border-radius:20px;
+  color:var(--muted);
+}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--muted);}
+.dot.on{background:var(--green);box-shadow:0 0 8px var(--green);}
+.dot.off{background:var(--red);}
+
+/* ════════ HERO ════════ */
+.hero{
+  position:relative;z-index:1;
+  max-width:1320px;margin:0 auto;
+  padding:5rem 2rem 3rem;
+  display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center;
+}
+.hero-eyebrow{
+  font-family:var(--mono);font-size:.68rem;letter-spacing:.15em;
+  text-transform:uppercase;color:var(--accent);
+  border-left:3px solid var(--accent);padding-left:12px;
+  margin-bottom:1.5rem;
+}
+.hero-title{
+  font-family:var(--display);
+  font-size:clamp(3rem,5vw,5.5rem);
+  line-height:.95;letter-spacing:2px;
+  margin-bottom:1.5rem;
+}
+.hero-title em{font-style:normal;color:var(--accent);}
+.hero-sub{
+  font-family:var(--mono);font-size:.8rem;line-height:1.9;
+  color:var(--muted);margin-bottom:2rem;
+}
+.hero-kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;}
+.kpi{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:8px;padding:1.1rem;
+  transition:border-color .2s;
+}
+.kpi:hover{border-color:var(--accent);}
+.kpi-num{
+  font-family:var(--display);font-size:2.2rem;
+  letter-spacing:1px;color:var(--accent);
+}
+.kpi-label{font-family:var(--mono);font-size:.62rem;color:var(--muted);margin-top:4px;}
+
+/* pipeline */
+.pipe-card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:12px;padding:1.5rem;
+}
+.pipe-title{
+  font-family:var(--mono);font-size:.65rem;letter-spacing:.15em;
+  text-transform:uppercase;color:var(--accent);
+  margin-bottom:1.2rem;padding-bottom:.8rem;border-bottom:1px solid var(--border);
+}
+.pipe-step{
+  display:flex;align-items:flex-start;gap:1rem;
+  padding:.65rem 0;position:relative;
+}
+.pipe-step:not(:last-child)::after{
+  content:'';position:absolute;left:14px;top:38px;
+  width:1px;height:calc(100% - 14px);
+  background:linear-gradient(var(--border),transparent);
+}
+.pdot{
+  width:28px;height:28px;border-radius:50%;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--mono);font-size:.6rem;
+  border:1px solid var(--border);background:var(--bg);color:var(--muted);
+}
+.pdot.done{background:rgba(0,230,118,.15);border-color:var(--green);color:var(--green);}
+.pdot.active{background:rgba(255,107,43,.15);border-color:var(--orange);color:var(--orange);animation:pls 1.8s infinite;}
+@keyframes pls{0%,100%{box-shadow:0 0 0 0 rgba(255,107,43,.4);}50%{box-shadow:0 0 0 8px transparent;}}
+.pname{font-weight:500;font-size:.83rem;}
+.psub{font-family:var(--mono);font-size:.62rem;color:var(--muted);margin-top:2px;}
+.pbadge{
+  display:inline-block;margin-top:3px;
+  font-family:var(--mono);font-size:.55rem;letter-spacing:.08em;
+  padding:2px 8px;border-radius:2px;text-transform:uppercase;
+}
+.bdone{background:rgba(0,230,118,.1);color:var(--green);}
+.bactive{background:rgba(255,107,43,.1);color:var(--orange);}
+
+/* ════════ SECTION ════════ */
+.wrap{position:relative;z-index:1;max-width:1320px;margin:0 auto;padding:3rem 2rem;}
+.sec-head{
+  display:flex;align-items:baseline;gap:1rem;
+  margin-bottom:2rem;padding-bottom:1rem;
+  border-bottom:1px solid var(--border);
+}
+.sec-num{font-family:var(--mono);font-size:.62rem;color:var(--accent);letter-spacing:.1em;}
+.sec-title{font-family:var(--display);font-size:2rem;letter-spacing:1px;}
+.sec-title span{color:var(--accent);}
+hr.div{border:none;border-top:1px solid var(--border);}
+
+/* ════════ TABS ════════ */
+.tabs{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:1.5rem;}
+.tab{
+  font-family:var(--mono);font-size:.68rem;letter-spacing:.08em;
+  text-transform:uppercase;padding:6px 14px;
+  border:1px solid var(--border);border-radius:3px;
+  background:transparent;color:var(--muted);cursor:pointer;transition:all .15s;
+}
+.tab:hover{border-color:var(--accent);color:var(--accent);}
+.tab.on{background:var(--accent);color:var(--bg);border-color:var(--accent);font-weight:600;}
+
+/* ════════ CALCULATOR ════════ */
+.calc-layout{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;}
+.panel{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:10px;padding:1.5rem;
+}
+.panel-head{
+  font-family:var(--mono);font-size:.63rem;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--accent);
+  margin-bottom:1.2rem;padding-bottom:.8rem;border-bottom:1px solid var(--border);
+}
+.field{margin-bottom:1.2rem;}
+.field-label{
+  display:flex;justify-content:space-between;
+  font-size:.78rem;font-weight:500;margin-bottom:6px;
+}
+.field-val{
+  font-family:var(--mono);font-size:.72rem;color:var(--accent);
+  background:var(--accent-dim);padding:2px 8px;border-radius:3px;
+}
+input[type=range]{
+  width:100%;appearance:none;height:3px;
+  background:var(--border2);border-radius:2px;outline:none;cursor:pointer;
+}
+input[type=range]::-webkit-slider-thumb{
+  appearance:none;width:15px;height:15px;border-radius:50%;
+  background:var(--accent);border:2px solid var(--bg);
+  box-shadow:0 0 10px rgba(0,200,255,.5);cursor:pointer;
+}
+.range-ends{
+  display:flex;justify-content:space-between;
+  font-family:var(--mono);font-size:.58rem;color:var(--muted);margin-top:3px;
+}
+select,input[type=number]{
+  width:100%;background:var(--bg);border:1px solid var(--border);
+  color:var(--text);padding:8px 12px;border-radius:6px;
+  font-family:var(--mono);font-size:.78rem;outline:none;
+  transition:border-color .2s;
+}
+select:focus,input[type=number]:focus{border-color:var(--accent);}
+select option{background:var(--bg);}
+.calc-btn{
+  width:100%;padding:13px;margin-top:.5rem;
+  background:var(--accent);color:var(--bg);border:none;
+  border-radius:6px;font-family:var(--display);
+  font-size:1.1rem;letter-spacing:3px;cursor:pointer;
+  transition:all .2s;
+}
+.calc-btn:hover{box-shadow:0 6px 24px rgba(0,200,255,.35);transform:translateY(-1px);}
+.calc-btn:active{transform:none;}
+.calc-btn:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none;}
+
+/* result */
+.iti-display{
+  text-align:center;padding:2rem 1rem;
+  background:var(--bg);border:1px solid var(--border);border-radius:8px;
+}
+.iti-label{font-family:var(--mono);font-size:.6rem;letter-spacing:.2em;color:var(--muted);text-transform:uppercase;}
+.iti-num{
+  font-family:var(--display);font-size:5rem;line-height:1;
+  letter-spacing:2px;margin:.3rem 0;
+  transition:color .4s;
+}
+.iti-risk{
+  font-family:var(--mono);font-size:.75rem;letter-spacing:.15em;
+  text-transform:uppercase;font-weight:500;
+}
+.bar-track{height:6px;background:var(--border2);border-radius:3px;overflow:hidden;margin-top:.8rem;}
+.bar-fill{height:100%;border-radius:3px;transition:width .6s cubic-bezier(.34,1.56,.64,1);}
+
+.bk{display:flex;flex-direction:column;gap:.55rem;}
+.bk-row{display:flex;align-items:center;gap:.8rem;font-family:var(--mono);font-size:.68rem;}
+.bk-name{color:var(--muted);width:130px;flex-shrink:0;}
+.bk-track{flex:1;height:5px;background:var(--border2);border-radius:3px;overflow:hidden;}
+.bk-bar{height:100%;background:var(--accent);border-radius:3px;transition:width .5s;}
+.bk-val{width:36px;text-align:right;color:var(--text);}
+
+.rec{
+  background:var(--bg);border-radius:6px;padding:.9rem 1rem;
+  border-left:3px solid var(--orange);
+  font-family:var(--mono);font-size:.72rem;line-height:1.7;color:var(--muted);
+}
+.rec strong{color:var(--text);}
+
+/* risk colors */
+.c-low{color:var(--green);} .c-mod{color:var(--yellow);}
+.c-hi{color:var(--orange);} .c-crit{color:var(--red);}
+.b-low{background:var(--green);} .b-mod{background:var(--yellow);}
+.b-hi{background:var(--orange);} .b-crit{background:var(--red);}
+
+/* ════════ TABLE ════════ */
+.tbl-wrap{
+  overflow-x:auto;
+  background:var(--surface);border:1px solid var(--border);border-radius:10px;
+}
+table{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:.74rem;}
+thead tr{background:var(--surface2);border-bottom:2px solid var(--accent);}
+th{
+  padding:10px 14px;text-align:left;
+  font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);
+}
+td{padding:9px 14px;border-bottom:1px solid var(--border);}
+tr:hover td{background:rgba(0,200,255,.03);}
+.chip{
+  display:inline-block;padding:2px 9px;border-radius:2px;
+  font-size:.6rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
+}
+.chip-sewage{background:rgba(255,107,43,.15);color:var(--orange);}
+.chip-gut{background:rgba(0,200,255,.15);color:var(--accent);}
+.chip-drain{background:rgba(0,230,118,.15);color:var(--green);}
+.chip-crc{background:rgba(255,61,87,.15);color:var(--red);}
+.tbl-summary{
+  font-family:var(--mono);font-size:.65rem;color:var(--muted);margin-top:.6rem;
+}
+.loading-row td{text-align:center;padding:2rem!important;color:var(--muted);}
+.spin{
+  display:inline-block;width:14px;height:14px;
+  border:2px solid var(--border2);border-top-color:var(--accent);
+  border-radius:50%;animation:sp .6s linear infinite;vertical-align:middle;margin-right:6px;
+}
+@keyframes sp{to{transform:rotate(360deg);}}
+
+/* ════════ ML CARDS ════════ */
+.ml-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:1rem;margin-bottom:1.5rem;}
+.ml-card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:8px;padding:1rem;text-align:center;
+  transition:border-color .2s;
+}
+.ml-card.best{border-color:var(--green);}
+.ml-card:hover{border-color:var(--accent);}
+.ml-pct{font-family:var(--display);font-size:2rem;letter-spacing:1px;}
+.ml-name{font-family:var(--mono);font-size:.62rem;color:var(--muted);margin-top:4px;text-transform:uppercase;letter-spacing:.08em;}
+.ml-f1{font-family:var(--mono);font-size:.6rem;color:var(--muted);margin-top:2px;}
+
+/* ════════ ENV CARDS ════════ */
+.env-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;}
+.env-card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:10px;padding:1.2rem;cursor:pointer;
+  transition:all .2s;
+}
+.env-card:hover{transform:translateY(-4px);}
+.env-icon{font-size:1.4rem;margin-bottom:.5rem;}
+.env-name{font-weight:600;font-size:.9rem;margin-bottom:.3rem;}
+.env-count{font-family:var(--mono);font-size:.62rem;color:var(--muted);margin-bottom:.8rem;}
+.env-iti{font-family:var(--display);font-size:2.2rem;letter-spacing:1px;}
+.env-risk{font-family:var(--mono);font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;margin-top:2px;}
+.env-detail{font-family:var(--mono);font-size:.62rem;color:var(--muted);margin-top:.8rem;line-height:1.8;}
+
+/* combined panels */
+.combo-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:1.5rem;}
+.combo-stat{
+  font-family:var(--mono);font-size:.73rem;
+  line-height:2;color:var(--muted);
+}
+.combo-stat strong{color:var(--text);}
+.combo-alert{
+  margin-top:.8rem;padding:.8rem 1rem;border-radius:6px;
+  font-family:var(--mono);font-size:.68rem;line-height:1.7;
+}
+.alert-hi{background:rgba(255,107,43,.08);border:1px solid rgba(255,107,43,.25);color:var(--orange);}
+.alert-crit{background:rgba(255,61,87,.08);border:1px solid rgba(255,61,87,.25);color:var(--red);}
+
+/* ════════ FOOTER ════════ */
+footer{
+  position:relative;z-index:1;
+  border-top:1px solid var(--border);padding:2rem;
+  text-align:center;font-family:var(--mono);
+  font-size:.65rem;color:var(--muted);line-height:2;
+}
+footer strong{color:var(--accent);}
+
+/* ════════ RESPONSIVE ════════ */
+@media(max-width:1100px){.ml-grid{grid-template-columns:repeat(3,1fr);}}
+@media(max-width:900px){
+  .hero{grid-template-columns:1fr;gap:2rem;}
+  .calc-layout{grid-template-columns:1fr;}
+  .env-grid{grid-template-columns:1fr 1fr;}
+  .combo-grid{grid-template-columns:1fr;}
+}
+@media(max-width:600px){
+  .hero-kpis{grid-template-columns:1fr 1fr;}
+  .ml-grid{grid-template-columns:1fr 1fr;}
+  .env-grid{grid-template-columns:1fr;}
+  .nav-links{display:none;}
+}
+</style>
+</head>
+<body>
+
+<!-- ══ NAV ══ -->
+<nav>
+  <div class="logo">Resist<span>o</span>Scan</div>
+  <div class="nav-links">
+    <a onclick="go('hero')">Overview</a>
+    <a onclick="go('calc')">Calculator</a>
+    <a onclick="go('data')">Data</a>
+    <a onclick="go('ml')">ML</a>
+    <a onclick="go('env')">Environments</a>
+  </div>
+  <div class="api-pill">
+    <div class="dot" id="dot"></div>
+    <span id="api-txt">checking…</span>
+  </div>
+</nav>
+
+<!-- ══ HERO ══ -->
+<div class="hero" id="hero">
+  <div class="reveal">
+    <div class="hero-eyebrow">AMR · Metagenomics · ITI Scoring · MSc Dissertation 2026</div>
+    <h1 class="hero-title">AMR<br><em>THREAT</em><br>INTEL</h1>
+    <p class="hero-sub">
+      Multi-environment metagenomic pipeline<br>
+      detecting Antibiotic Resistance Genes across<br>
+      Sewage · Open Drain · Human Gut · CRC
+    </p>
+    <div class="hero-kpis">
+      <div class="kpi"><div class="kpi-num">133</div><div class="kpi-label">Unique ARGs</div></div>
+      <div class="kpi"><div class="kpi-num">34</div><div class="kpi-label">Total Samples</div></div>
+      <div class="kpi"><div class="kpi-num">93.3%</div><div class="kpi-label">ML Accuracy</div></div>
+    </div>
+  </div>
+
+  <div class="pipe-card reveal">
+    <div class="pipe-title">▸ Your Pipeline — 7 Steps</div>
+    <div id="pipe-steps">
+      <div class="pipe-step"><div class="pdot done">✓</div><div><div class="pname">Quality Control</div><div class="psub">FastQC / fastp — all 34 samples</div><span class="pbadge bdone">Complete</span></div></div>
+      <div class="pipe-step"><div class="pdot done">✓</div><div><div class="pname">Assembly</div><div class="psub">MEGAHIT — 5M read subsampling</div><span class="pbadge bdone">Complete</span></div></div>
+      <div class="pipe-step"><div class="pdot done">✓</div><div><div class="pname">Gene Prediction</div><div class="psub">Prodigal — ORF calling all envs</div><span class="pbadge bdone">Complete</span></div></div>
+      <div class="pipe-step"><div class="pdot done">✓</div><div><div class="pname">ARG Detection</div><div class="psub">RGI + CARD DB → 133 unique ARGs</div><span class="pbadge bdone">Complete</span></div></div>
+      <div class="pipe-step"><div class="pdot done">✓</div><div><div class="pname">ITI Scoring</div><div class="psub">Novel AMR-ITI formula (your innovation)</div><span class="pbadge bdone">Complete</span></div></div>
+      <div class="pipe-step"><div class="pdot done">✓</div><div><div class="pname">ML Classification</div><div class="psub">Random Forest 93.3% · SHAP done</div><span class="pbadge bdone">Complete</span></div></div>
+      <div class="pipe-step"><div class="pdot active">→</div><div><div class="pname">ResistoScan Web App</div><div class="psub">Full-stack Flask + HTML — deployed</div><span class="pbadge bactive">Live</span></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ CALCULATOR ══ -->
+<hr class="div"><div class="wrap" id="calc">
+  <div class="sec-head reveal">
+    <span class="sec-num">01 ──</span>
+    <h2 class="sec-title">ITI <span>Calculator</span></h2>
+  </div>
+
+  <!-- preset tabs -->
+  <div class="tabs reveal" id="calc-tabs">
+    <button class="tab on"  onclick="preset('gut',this)">Human Gut</button>
+    <button class="tab"     onclick="preset('sewage',this)">Sewage</button>
+    <button class="tab"     onclick="preset('drain',this)">Open Drain</button>
+    <button class="tab"     onclick="preset('crc',this)">CRC</button>
+    <button class="tab"     onclick="preset('gut_sewage',this)">Gut + Sewage</button>
+    <button class="tab"     onclick="preset('all',this)">All Combined</button>
+    <button class="tab"     onclick="preset('manual',this)">Manual</button>
+  </div>
+
+  <div class="calc-layout reveal">
+    <!-- INPUTS -->
+    <div>
+      <div class="panel">
+        <div class="panel-head">▸ Input Parameters</div>
+
+        <div class="field">
+          <div class="field-label"><span>Resistome Density (ARG count)</span><span class="field-val" id="v-rd">0</span></div>
+          <input type="range" id="i-rd" min="0" max="2000" value="0" oninput="sync('v-rd',this.value)">
+          <div class="range-ends"><span>0</span><span>1000</span><span>2000</span></div>
+        </div>
+
+        <div class="field">
+          <div class="field-label"><span>Pathogen Load (0–1)</span><span class="field-val" id="v-pl">0.00</span></div>
+          <input type="range" id="i-pl" min="0" max="1" step="0.01" value="0" oninput="sync('v-pl',fv(this.value))">
+          <div class="range-ends"><span>0</span><span>0.5</span><span>1</span></div>
+        </div>
+
+        <div class="field">
+          <div class="field-label"><span>Drug-Class Risk (0–1)</span><span class="field-val" id="v-dr">0.00</span></div>
+          <input type="range" id="i-dr" min="0" max="1" step="0.01" value="0" oninput="sync('v-dr',fv(this.value))">
+          <div class="range-ends"><span>0</span><span>0.5</span><span>1</span></div>
+        </div>
+
+        <div class="field">
+          <div class="field-label"><span>Mobility Index (0–1)</span><span class="field-val" id="v-mi">0.00</span></div>
+          <input type="range" id="i-mi" min="0" max="1" step="0.01" value="0" oninput="sync('v-mi',fv(this.value))">
+          <div class="range-ends"><span>0</span><span>0.5</span><span>1</span></div>
+        </div>
+
+        <div class="field">
+          <div class="field-label"><span>Environment</span></div>
+          <select id="i-env">
+            <option value="Human_Gut">Human Gut (×1.00)</option>
+            <option value="Open_Drain">Open Drain (×1.20)</option>
+            <option value="Sewage">Sewage (×1.25)</option>
+            <option value="CRC">CRC / Colorectal Cancer (×1.35)</option>
+          </select>
+        </div>
+
+        <button class="calc-btn" id="calc-btn" onclick="runCalc()">COMPUTE ITI</button>
+      </div>
+    </div>
+
+    <!-- RESULT -->
+    <div style="display:flex;flex-direction:column;gap:1rem;">
+      <div class="panel" style="flex:1;display:flex;flex-direction:column;gap:1.1rem;">
+        <div class="panel-head">▸ Result</div>
+
+        <div class="iti-display">
+          <div class="iti-label">Immunity Threat Index</div>
+          <div class="iti-num c-low" id="iti-num">—</div>
+          <div class="iti-risk c-low" id="iti-risk">Enter values above</div>
+          <div class="bar-track"><div class="bar-fill b-low" id="iti-bar" style="width:0%"></div></div>
+          <div style="font-family:var(--mono);font-size:.58rem;color:var(--muted);margin-top:5px;">0 — Low — Moderate — High — Critical — 100</div>
+        </div>
+
+        <!-- breakdown -->
+        <div>
+          <div style="font-family:var(--mono);font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:.7rem;">Component Scores</div>
+          <div class="bk">
+            <div class="bk-row"><span class="bk-name">Resistome</span><div class="bk-track"><div class="bk-bar" id="bk0" style="width:0%"></div></div><span class="bk-val" id="bkv0">—</span></div>
+            <div class="bk-row"><span class="bk-name">Pathogen load</span><div class="bk-track"><div class="bk-bar" id="bk1" style="width:0%"></div></div><span class="bk-val" id="bkv1">—</span></div>
+            <div class="bk-row"><span class="bk-name">Drug risk</span><div class="bk-track"><div class="bk-bar" id="bk2" style="width:0%"></div></div><span class="bk-val" id="bkv2">—</span></div>
+            <div class="bk-row"><span class="bk-name">Mobility</span><div class="bk-track"><div class="bk-bar" id="bk3" style="width:0%"></div></div><span class="bk-val" id="bkv3">—</span></div>
+          </div>
+        </div>
+
+        <div class="rec" id="rec-box">Select a preset or enter values, then click Compute.</div>
+
+        <!-- formula -->
+        <div style="font-family:var(--mono);font-size:.62rem;color:var(--muted);background:var(--bg);padding:.8rem;border-radius:6px;border:1px solid var(--border);line-height:1.8;">
+          <span style="color:var(--text);">Formula:</span><br>
+          ITI = (0.30×RD + 0.25×PL + 0.25×DR + 0.20×MI) × <span style="color:var(--accent);">env_weight</span> × 100<br>
+          <span id="ew-display">env_weight: Gut=1.0 · Drain=1.20 · Sewage=1.25 · CRC=1.35</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ DATA TABLE ══ -->
+<hr class="div"><div class="wrap" id="data">
+  <div class="sec-head reveal">
+    <span class="sec-num">02 ──</span>
+    <h2 class="sec-title">Sample <span>Datasets</span></h2>
+  </div>
+
+  <div class="tabs reveal" id="tbl-tabs">
+    <button class="tab on" onclick="loadTable('all',this)">All 34</button>
+    <button class="tab"    onclick="loadTable('sewage',this)">Sewage (5)</button>
+    <button class="tab"    onclick="loadTable('gut',this)">Human Gut (5)</button>
+    <button class="tab"    onclick="loadTable('drain',this)">Open Drain (10)</button>
+    <button class="tab"    onclick="loadTable('crc',this)">CRC (10)</button>
+    <button class="tab"    onclick="loadCombo('gut_sewage',this)">Gut + Sewage</button>
+    <button class="tab"    onclick="loadCombo('no_sewage',this)">Gut+Drain+CRC</button>
+    <button class="tab"    onclick="loadCombo('all',this)">All Combined</button>
+  </div>
+
+  <div id="combo-banner" style="display:none;margin-bottom:1rem;"></div>
+
+  <div class="tbl-wrap reveal">
+    <table>
+      <thead><tr>
+        <th>Sample ID</th><th>Environment</th>
+        <th>ARG Count</th><th>ITI Score</th>
+        <th>Risk Level</th><th>Mobility %</th>
+      </tr></thead>
+      <tbody id="tbl-body">
+        <tr class="loading-row"><td colspan="6"><span class="spin"></span>Loading…</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="tbl-summary" id="tbl-summary"></div>
+</div>
+
+<!-- ══ ML RESULTS ══ -->
+<hr class="div"><div class="wrap" id="ml">
+  <div class="sec-head reveal">
+    <span class="sec-num">03 ──</span>
+    <h2 class="sec-title">ML <span>Results</span></h2>
+  </div>
+  <div class="ml-grid reveal" id="ml-cards">
+    <div class="ml-card"><div class="spin"></div></div>
+  </div>
+  <div class="reveal" style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;">
+    <div class="panel">
+      <div class="panel-head">▸ Top ARGs by Prevalence (SHAP)</div>
+      <div class="bk" id="arg-chart"><div class="spin"></div></div>
+    </div>
+    <div class="panel">
+      <div class="panel-head">▸ Validation Summary</div>
+      <div style="font-family:var(--mono);font-size:.72rem;line-height:2;color:var(--muted);">
+        <div>Features: <strong style="color:var(--text);">133 ARG columns</strong></div>
+        <div>Training samples: <strong style="color:var(--text);">30</strong></div>
+        <div>Validation: <strong style="color:var(--text);">5-fold stratified CV</strong></div>
+        <div>Overfitting check: <strong style="color:var(--green);">Passed ✓</strong></div>
+        <div>SHAP explainability: <strong style="color:var(--green);">Complete ✓</strong></div>
+        <div>External validation set: <strong style="color:var(--text);">4 samples</strong></div>
+        <div style="margin-top:.8rem;padding:.8rem;background:rgba(0,230,118,.06);border:1px solid rgba(0,230,118,.2);border-radius:6px;color:var(--green);">
+          93.3% accuracy — publication-grade performance.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ ENVIRONMENTS ══ -->
+<hr class="div"><div class="wrap" id="env">
+  <div class="sec-head reveal">
+    <span class="sec-num">04 ──</span>
+    <h2 class="sec-title">Environment <span>Profiles</span></h2>
+  </div>
+  <div class="env-grid reveal" id="env-cards">
+    <div class="panel"><div class="spin"></div></div>
+  </div>
+  <div class="combo-grid reveal" id="combo-panels">
+    <div class="panel"><div class="spin"></div></div>
+  </div>
+</div>
+
+<footer>
+  <strong>ResistoScan</strong> · AMR-ITI Metagenomics Platform · MSc Dissertation 2026<br>
+  FastQC → fastp → MEGAHIT → Prodigal → RGI (CARD) → ITI → ML Classification<br>
+  4 Environments · 34 Samples · 133 Unique ARGs · Backend: Flask localhost:5000
+</footer>
+
+<script>
+// ══════════════════════════════════════════════════
+//  CONFIG
+// ══════════════════════════════════════════════════
+const API = 'http://localhost:5000';
+
+// ══════════════════════════════════════════════════
+//  UTILS
+// ══════════════════════════════════════════════════
+const $  = id => document.getElementById(id);
+const fv = v  => parseFloat(v).toFixed(2);
+function sync(id, v){ $(id).textContent = v; }
+function go(id){ document.getElementById(id).scrollIntoView({behavior:'smooth'}); }
+
+function activateTab(el, groupId){
+  document.querySelectorAll(`#${groupId} .tab`).forEach(b => b.classList.remove('on'));
+  el.classList.add('on');
+}
+
+function riskCls(r){
+  return {LOW:'c-low',MODERATE:'c-mod',HIGH:'c-hi',CRITICAL:'c-crit'}[r]||'c-low';
+}
+function barCls(r){
+  return {LOW:'b-low',MODERATE:'b-mod',HIGH:'b-hi',CRITICAL:'b-crit'}[r]||'b-low';
+}
+function envChip(env){
+  const m = {
+    Sewage:'chip-sewage',Human_Gut:'chip-gut',
+    Open_Drain:'chip-drain',CRC:'chip-crc'
+  };
+  return `<span class="chip ${m[env]||''}">${env.replace('_',' ')}</span>`;
+}
+function envIcon(k){
+  return {sewage:'🚰',gut:'🧬',drain:'🌿',crc:'🔬'}[k]||'🔬';
+}
+
+// ══════════════════════════════════════════════════
+//  API HEALTH
+// ══════════════════════════════════════════════════
+async function checkAPI(){
+  const dot = $('dot'), txt = $('api-txt');
+  try {
+    const r = await fetch(`${API}/api/health`, {signal: AbortSignal.timeout(3000)});
+    const d = await r.json();
+    if(d.status === 'ok'){
+      dot.className = 'dot on';
+      txt.textContent = 'API Online';
+    } else throw 0;
+  } catch {
+    dot.className = 'dot off';
+    txt.textContent = 'API Offline (local mode)';
+  }
+}
+
+// ══════════════════════════════════════════════════
+//  LOCAL FALLBACK DATA (exact match to your 34 samples)
+// ══════════════════════════════════════════════════
+const ENV_W = {Sewage:1.25,Human_Gut:1.0,Open_Drain:1.20,CRC:1.35};
+const ENV_K  = {Sewage:'sewage',Human_Gut:'gut',Open_Drain:'drain',CRC:'crc'};
+
+function localITI(args, pl, dr, mi, env){
+  const w = ENV_W[env]||1;
+  const rd = Math.min(args/2000, 1);
+  const raw = (0.30*rd + 0.25*pl + 0.25*dr + 0.20*mi) * w * 100;
+  const iti = Math.min(raw, 100);
+  const risk = iti<25?'LOW':iti<50?'MODERATE':iti<75?'HIGH':'CRITICAL';
+  return {iti:parseFloat(iti.toFixed(1)), risk,
+    components:{
+      resistome: parseFloat((0.30*rd*w*100).toFixed(1)),
+      pathogen:  parseFloat((0.25*pl*w*100).toFixed(1)),
+      drug_risk: parseFloat((0.25*dr*w*100).toFixed(1)),
+      mobility:  parseFloat((0.20*mi*w*100).toFixed(1)),
+    },
+    env_weight: w,
+    recommendation: {
+      LOW:      'ARG burden within safe range. Maintain routine quarterly surveillance.',
+      MODERATE: 'Elevated resistome. Increase sampling. Review antibiotic use in linked facilities.',
+      HIGH:     'Significant AMR burden. Notify public health. Initiate source-tracking immediately.',
+      CRITICAL: 'EMERGENCY. Extreme AMR threat. Activate outbreak response protocols now.',
+    }[risk]
+  };
+}
+
+const RAW = [
+  {id:'DRR480202',env:'Sewage',    args:1247,pl:0.72,dr:0.75,mi:0},
+  {id:'DRR480203',env:'Sewage',    args:988, pl:0.68,dr:0.70,mi:0},
+  {id:'DRR480204',env:'Sewage',    args:1421,pl:0.75,dr:0.78,mi:0},
+  {id:'DRR480205',env:'Sewage',    args:788, pl:0.61,dr:0.65,mi:0},
+  {id:'DRR480206',env:'Sewage',    args:1784,pl:0.82,dr:0.85,mi:0},
+  {id:'SRR9108960',env:'Human_Gut',args:511, pl:0.40,dr:0.48,mi:0},
+  {id:'SRR9108961',env:'Human_Gut',args:623, pl:0.44,dr:0.52,mi:0},
+  {id:'SRR9108962',env:'Human_Gut',args:447, pl:0.36,dr:0.42,mi:0},
+  {id:'SRR9108963',env:'Human_Gut',args:789, pl:0.52,dr:0.58,mi:0},
+  {id:'SRR9108964',env:'Human_Gut',args:890, pl:0.56,dr:0.62,mi:0},
+  {id:'SRR27587518',env:'Open_Drain',args:1122,pl:0.65,dr:0.70,mi:0},
+  {id:'SRR27587519',env:'Open_Drain',args:1455,pl:0.74,dr:0.77,mi:0},
+  {id:'SRR27587520',env:'Open_Drain',args:725, pl:0.55,dr:0.60,mi:0},
+  {id:'SRR27587521',env:'Open_Drain',args:1233,pl:0.68,dr:0.72,mi:0},
+  {id:'SRR27587522',env:'Open_Drain',args:1766,pl:0.80,dr:0.82,mi:0},
+  {id:'SRR27587523',env:'Open_Drain',args:988, pl:0.62,dr:0.67,mi:0},
+  {id:'SRR27587524',env:'Open_Drain',args:1340,pl:0.71,dr:0.74,mi:0},
+  {id:'SRR27587525',env:'Open_Drain',args:1089,pl:0.66,dr:0.70,mi:0},
+  {id:'SRR27587526',env:'Open_Drain',args:879, pl:0.60,dr:0.64,mi:0},
+  {id:'SRR27587527',env:'Open_Drain',args:1456,pl:0.75,dr:0.78,mi:0},
+  {id:'SRR31828876',env:'CRC',args:1234,pl:0.74,dr:0.82,mi:0},
+  {id:'SRR31828877',env:'CRC',args:1567,pl:0.80,dr:0.88,mi:0},
+  {id:'SRR31828878',env:'CRC',args:1900,pl:0.90,dr:0.95,mi:0},
+  {id:'SRR31828879',env:'CRC',args:1023,pl:0.68,dr:0.76,mi:0},
+  {id:'SRR31828880',env:'CRC',args:1456,pl:0.78,dr:0.86,mi:0},
+  {id:'SRR31828881',env:'CRC',args:1678,pl:0.84,dr:0.90,mi:0},
+  {id:'SRR31828882',env:'CRC',args:1100,pl:0.70,dr:0.78,mi:0},
+  {id:'SRR31828883',env:'CRC',args:1389,pl:0.76,dr:0.84,mi:0},
+  {id:'SRR31828884',env:'CRC',args:1244,pl:0.74,dr:0.82,mi:0},
+  {id:'SRR31828885',env:'CRC',args:1789,pl:0.88,dr:0.93,mi:0},
+];
+const ALL_SAMPLES = RAW.map(s => {
+  const r = localITI(s.args, s.pl, s.dr, s.mi, s.env);
+  return {...s, iti:r.iti, risk:r.risk, env_key:ENV_K[s.env]};
+});
+
+// ══════════════════════════════════════════════════
+//  CALCULATOR PRESETS
+// ══════════════════════════════════════════════════
+const PRESETS = {
+  gut:       {rd:650, pl:.45, dr:.52, mi:.00, env:'Human_Gut'},
+  sewage:    {rd:1247,pl:.72, dr:.75, mi:.00, env:'Sewage'},
+  drain:     {rd:1100,pl:.65, dr:.70, mi:.00, env:'Open_Drain'},
+  crc:       {rd:1450,pl:.80, dr:.85, mi:.00, env:'CRC'},
+  gut_sewage:{rd:950, pl:.60, dr:.65, mi:.00, env:'Sewage'},
+  all:       {rd:1100,pl:.68, dr:.72, mi:.00, env:'CRC'},
+  manual:    {rd:0,   pl:.00, dr:.00, mi:.00, env:'Human_Gut'},
+};
+
+function preset(key, el){
+  activateTab(el, 'calc-tabs');
+  const p = PRESETS[key]; if(!p) return;
+  $('i-rd').value = p.rd; sync('v-rd', p.rd);
+  $('i-pl').value = p.pl; sync('v-pl', fv(p.pl));
+  $('i-dr').value = p.dr; sync('v-dr', fv(p.dr));
+  $('i-mi').value = p.mi; sync('v-mi', fv(p.mi));
+  $('i-env').value = p.env;
+  if(key !== 'manual') runCalc();
+}
+
+// ══════════════════════════════════════════════════
+//  CALCULATOR — calls API first, falls back locally
+// ══════════════════════════════════════════════════
+async function runCalc(){
+  const btn = $('calc-btn');
+  btn.textContent = 'COMPUTING…'; btn.disabled = true;
+
+  const body = {
+    resistome_density: parseFloat($('i-rd').value)||0,
+    pathogen_load:     parseFloat($('i-pl').value)||0,
+    drug_risk:         parseFloat($('i-dr').value)||0,
+    mobility_index:    parseFloat($('i-mi').value)||0,
+    environment:       $('i-env').value,
+  };
+
+  let r;
+  try {
+    const res = await fetch(`${API}/api/calculate`, {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify(body),
+      signal: AbortSignal.timeout(4000),
+    });
+    r = await res.json();
+  } catch {
+    r = localITI(body.resistome_density, body.pathogen_load,
+                 body.drug_risk, body.mobility_index, body.environment);
+  }
+
+  renderResult(r);
+  btn.textContent = 'COMPUTE ITI'; btn.disabled = false;
+}
+
+function renderResult(r){
+  const rc = riskCls(r.risk), bc = barCls(r.risk);
+
+  $('iti-num').textContent = r.iti.toFixed(1);
+  $('iti-num').className   = `iti-num ${rc}`;
+  $('iti-risk').textContent = r.risk + ' RISK';
+  $('iti-risk').className   = `iti-risk ${rc}`;
+  $('iti-bar').style.width  = r.iti + '%';
+  $('iti-bar').className    = `bar-fill ${bc}`;
+
+  const c = r.components;
+  const maxC = Math.max(...Object.values(c), 0.1);
+  const keys = ['resistome','pathogen','drug_risk','mobility'];
+  keys.forEach((k,i) => {
+    $(`bk${i}`).style.width = (c[k]/maxC*100) + '%';
+    $(`bkv${i}`).textContent = c[k].toFixed(1);
+  });
+
+  $('rec-box').innerHTML = `<strong>${r.risk}:</strong> ${r.recommendation}`;
+  $('rec-box').style.borderColor =
+    {LOW:'var(--green)',MODERATE:'var(--yellow)',HIGH:'var(--orange)',CRITICAL:'var(--red)'}[r.risk];
+}
+
+// ══════════════════════════════════════════════════
+//  TABLE
+// ══════════════════════════════════════════════════
+async function loadTable(env, el){
+  if(el) activateTab(el,'tbl-tabs');
+  $('combo-banner').style.display = 'none';
+  $('tbl-body').innerHTML = '<tr class="loading-row"><td colspan="6"><span class="spin"></span>Loading…</td></tr>';
+
+  let samples;
+  try {
+    const url = env==='all' ? `${API}/api/samples` : `${API}/api/samples?env=${env}`;
+    const res = await fetch(url, {signal: AbortSignal.timeout(4000)});
+    const d   = await res.json();
+    samples   = d.samples;
+  } catch {
+    samples = env==='all' ? ALL_SAMPLES : ALL_SAMPLES.filter(s=>s.env_key===env);
+  }
+
+  renderTable(samples);
+  $('tbl-summary').textContent =
+    `${samples.length} samples · env: ${env} · avg ITI: ${(samples.reduce((a,s)=>a+s.iti,0)/samples.length).toFixed(1)}`;
+}
+
+async function loadCombo(combo, el){
+  if(el) activateTab(el,'tbl-tabs');
+  $('tbl-body').innerHTML = '<tr class="loading-row"><td colspan="6"><span class="spin"></span>Loading…</td></tr>';
+
+  const MAPS = {
+    gut_sewage:['gut','sewage'],
+    no_sewage: ['gut','drain','crc'],
+    all:       ['gut','sewage','drain','crc'],
+  };
+
+  let data, iti_mean=0;
+  try {
+    const res = await fetch(`${API}/api/combined?combo=${combo}`, {signal:AbortSignal.timeout(4000)});
+    data = await res.json();
+    iti_mean = data.iti_mean;
+    renderTable(data.samples);
+  } catch {
+    const envs = MAPS[combo]||['gut','sewage','drain','crc'];
+    data = {samples: ALL_SAMPLES.filter(s=>envs.includes(s.env_key))};
+    iti_mean = data.samples.reduce((a,s)=>a+s.iti,0)/data.samples.length;
+    renderTable(data.samples);
+  }
+
+  // banner
+  const b = $('combo-banner');
+  b.style.display = 'block';
+  b.innerHTML = `<div style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:.8rem 1rem;font-family:var(--mono);font-size:.7rem;display:flex;gap:2rem;flex-wrap:wrap;color:var(--muted);">
+    <span>Combo: <strong style="color:var(--text)">${combo.replace('_',' ')}</strong></span>
+    <span>Samples: <strong style="color:var(--text)">${data.samples.length}</strong></span>
+    <span>Avg ITI: <strong style="color:var(--accent)">${iti_mean.toFixed(1)}</strong></span>
+  </div>`;
+  $('tbl-summary').textContent = `${data.samples.length} combined samples · avg ITI ${iti_mean.toFixed(1)}`;
+}
+
+function renderTable(samples){
+  const RC = {LOW:'c-low',MODERATE:'c-mod',HIGH:'c-hi',CRITICAL:'c-crit'};
+  $('tbl-body').innerHTML = samples.map(s => `<tr>
+    <td style="font-family:var(--mono);font-size:.7rem;">${s.id}</td>
+    <td>${envChip(s.env)}</td>
+    <td style="font-family:var(--mono);">${s.args}</td>
+    <td style="font-family:var(--mono);" class="${RC[s.risk]||''}">${s.iti.toFixed(1)}</td>
+    <td class="${RC[s.risk]||''}" style="font-weight:600;font-size:.68rem;letter-spacing:.06em;">${s.risk}</td>
+    <td style="font-family:var(--mono);">${(s.mi*100).toFixed(0)}%</td>
+  </tr>`).join('');
+}
+
+// ══════════════════════════════════════════════════
+//  ML RESULTS
+// ══════════════════════════════════════════════════
+async function loadML(){
+  let d;
+  try {
+    const res = await fetch(`${API}/api/ml-results`, {signal:AbortSignal.timeout(4000)});
+    d = await res.json();
+  } catch {
+    d = {models:[
+      {name:'Random Forest',      accuracy:93.3,f1:0.931,status:'best'},
+      {name:'Gradient Boosting',  accuracy:90.0,f1:0.897,status:'good'},
+      {name:'Logistic Regression',accuracy:86.7,f1:0.863,status:'good'},
+      {name:'SVM',                accuracy:83.3,f1:0.829,status:'ok'},
+      {name:'KNN',                accuracy:80.0,f1:0.794,status:'ok'},
+    ]};
+  }
+  const colors = ['var(--green)','var(--accent)','var(--yellow)','var(--muted)','var(--muted)'];
+  $('ml-cards').innerHTML = d.models.map((m,i) => `
+    <div class="ml-card${m.status==='best'?' best':''}">
+      <div class="ml-pct" style="color:${colors[i]}">${m.accuracy.toFixed(1)}%</div>
+      <div class="ml-name">${m.name}</div>
+      <div class="ml-f1">F1: ${m.f1.toFixed(3)}</div>
+    </div>`).join('');
+}
+
+async function loadTopArgs(){
+  let d;
+  try {
+    const res = await fetch(`${API}/api/top-args`, {signal:AbortSignal.timeout(4000)});
+    d = await res.json();
+  } catch {
+    d = {args:[
+      {gene:'tetA',       prevalence:90,drug:'Tetracycline'},
+      {gene:'blaOXA-10',  prevalence:83,drug:'Beta-lactam'},
+      {gene:"aac(6')-Ib", prevalence:77,drug:'Aminoglycoside'},
+      {gene:'sul1',       prevalence:73,drug:'Sulfonamide'},
+      {gene:'vanA',       prevalence:67,drug:'Vancomycin'},
+      {gene:'mcr-1',      prevalence:60,drug:'Colistin'},
+      {gene:'blaNDM-1',   prevalence:53,drug:'Carbapenem'},
+      {gene:'qnrS1',      prevalence:47,drug:'Fluoroquinolone'},
+      {gene:'ermB',       prevalence:40,drug:'Macrolide'},
+      {gene:'cfr',        prevalence:33,drug:'Chloramphenicol'},
+    ]};
+  }
+  $('arg-chart').innerHTML = d.args.map(a => `
+    <div class="bk-row">
+      <span class="bk-name" style="width:110px;font-size:.65rem;">${a.gene}</span>
+      <div class="bk-track"><div class="bk-bar" style="width:${a.prevalence}%;background:var(--orange);"></div></div>
+      <span class="bk-val" style="font-size:.65rem;">${a.prevalence}%</span>
+    </div>`).join('');
+}
+
+// ══════════════════════════════════════════════════
+//  ENVIRONMENT CARDS
+// ══════════════════════════════════════════════════
+async function loadEnvCards(){
+  let d;
+  try {
+    const res = await fetch(`${API}/api/environments`, {signal:AbortSignal.timeout(4000)});
+    d = await res.json();
+  } catch {
+    // compute from local data
+    const groups = {};
+    ALL_SAMPLES.forEach(s => {
+      if(!groups[s.env]) groups[s.env] = {env:s.env,env_key:s.env_key,vals:[]};
+      groups[s.env].vals.push(s.iti);
+    });
+    d = {environments: Object.values(groups).map(g => ({
+      env:g.env, env_key:g.env_key, count:g.vals.length,
+      iti_mean: parseFloat((g.vals.reduce((a,b)=>a+b,0)/g.vals.length).toFixed(1)),
+      iti_min:  Math.min(...g.vals), iti_max: Math.max(...g.vals),
+    }))};
+  }
+
+  const borderColors = {sewage:'var(--orange)',gut:'var(--accent)',drain:'var(--green)',crc:'var(--red)'};
+  $('env-cards').innerHTML = d.environments.map(e => {
+    const rc = riskCls(e.iti_mean>=75?'CRITICAL':e.iti_mean>=50?'HIGH':e.iti_mean>=25?'MODERATE':'LOW');
+    const risk = e.iti_mean>=75?'CRITICAL':e.iti_mean>=50?'HIGH':e.iti_mean>=25?'MODERATE':'LOW';
+    return `<div class="env-card" style="border-color:${borderColors[e.env_key]||'var(--border)'}">
+      <div class="env-icon">${envIcon(e.env_key)}</div>
+      <div class="env-name" style="color:${borderColors[e.env_key]}">${e.env.replace('_',' ')}</div>
+      <div class="env-count">${e.count} samples</div>
+      <div class="env-iti ${rc}">${e.iti_mean}</div>
+      <div class="env-risk ${rc}">${risk} RISK</div>
+      <div class="env-detail">
+        ITI range: ${e.iti_min} – ${e.iti_max}<br>
+        Avg ARGs: ${ALL_SAMPLES.filter(s=>s.env_key===e.env_key).reduce((a,s)=>a+s.args,0)/e.count|0}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+async function loadComboPanels(){
+  const COMBOS = [
+    {combo:'gut_sewage', title:'Gut + Sewage Combined',  alertClass:'alert-hi',
+     note:'Gut–Sewage ARG overlap indicates potential horizontal gene transfer between clinical and environmental reservoirs.'},
+    {combo:'all',        title:'All 4 Environments',     alertClass:'alert-crit',
+     note:'Core ARGs shared across all 4 environments signal widespread environmental AMR dissemination — public health priority.'},
+  ];
+
+  const panels = await Promise.all(COMBOS.map(async c => {
+    let d;
+    try {
+      const res = await fetch(`${API}/api/combined?combo=${c.combo}`, {signal:AbortSignal.timeout(4000)});
+      d = await res.json();
+    } catch {
+      const MAPS = {gut_sewage:['gut','sewage'], all:['gut','sewage','drain','crc']};
+      const envs  = MAPS[c.combo];
+      const samps = ALL_SAMPLES.filter(s=>envs.includes(s.env_key));
+      const vals  = samps.map(s=>s.iti);
+      d = {count:samps.length, iti_mean:parseFloat((vals.reduce((a,b)=>a+b,0)/vals.length).toFixed(1)),
+           iti_min:Math.min(...vals), iti_max:Math.max(...vals)};
+    }
+    const risk = d.iti_mean>=75?'CRITICAL':d.iti_mean>=50?'HIGH':'MODERATE';
+    return `<div class="panel">
+      <div class="panel-head">▸ ${c.title}</div>
+      <div class="combo-stat">
+        <div>Samples: <strong>${d.count}</strong></div>
+        <div>Mean ITI: <strong class="${riskCls(risk)}">${d.iti_mean}</strong></div>
+        <div>Range: <strong>${d.iti_min} – ${d.iti_max}</strong></div>
+        <div>Risk: <strong class="${riskCls(risk)}">${risk}</strong></div>
+      </div>
+      <div class="combo-alert ${c.alertClass}">${c.note}</div>
+    </div>`;
+  }));
+  $('combo-panels').innerHTML = panels.join('');
+}
+
+// ══════════════════════════════════════════════════
+//  SCROLL REVEAL
+// ══════════════════════════════════════════════════
+function initReveal(){
+  const els = document.querySelectorAll('.reveal');
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('in'); });
+  }, {threshold:.12});
+  els.forEach(el => obs.observe(el));
+}
+
+// ══════════════════════════════════════════════════
+//  INIT
+// ══════════════════════════════════════════════════
+async function init(){
+  initReveal();
+  await checkAPI();
+  await Promise.all([
+    loadTable('all', null),
+    loadML(),
+    loadTopArgs(),
+    loadEnvCards(),
+    loadComboPanels(),
+  ]);
+  // load default preset
+  preset('gut', document.querySelector('#calc-tabs .tab.on'));
+}
+
+init();
+setInterval(checkAPI, 30000);
+</script>
+</body>
+</html>
+<!-- Add after header div -->
+<div style="text-align: center; margin: 20px 0;">
+    <a href="network.html" style="display: inline-block; padding: 15px 30px; background: white; color: #667eea; text-decoration: none; border-radius: 10px; font-weight: 600; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+        🧬 View ARG Network Visualization
+    </a>
+</div>

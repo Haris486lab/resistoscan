@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ResistoScan - ARG Network</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #0d1117;
+            color: white;
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            padding: 30px;
+            text-align: center;
+        }
+        .header h1 { font-size: 2.5em; margin-bottom: 10px; }
+        .container {
+            display: flex;
+            height: calc(100vh - 120px);
+        }
+        #network {
+            flex: 1;
+            background: #161b22;
+        }
+        .sidebar {
+            width: 350px;
+            background: #1c2128;
+            padding: 20px;
+            overflow-y: auto;
+            border-left: 1px solid #30363d;
+        }
+        .info-card {
+            background: #161b22;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #30363d;
+        }
+        .info-card h3 { margin-bottom: 10px; color: #58a6ff; }
+        .info-card p { font-size: 0.9em; line-height: 1.6; color: #8b949e; }
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: 600;
+            margin-top: 5px;
+        }
+        .badge-critical { background: #da3633; }
+        .badge-high { background: #f85149; }
+        .badge-medium { background: #d29922; }
+        .legend {
+            background: #161b22;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin: 8px 0;
+            font-size: 0.9em;
+        }
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        .stats {
+            background: #161b22;
+            padding: 15px;
+            border-radius: 10px;
+        }
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            margin: 8px 0;
+            padding: 8px 0;
+            border-bottom: 1px solid #30363d;
+        }
+        .stat-label { color: #8b949e; font-size: 0.9em; }
+        .stat-value { color: #58a6ff; font-weight: 600; }
+        .node-drug-class {
+            stroke: #fff;
+            stroke-width: 2px;
+        }
+        .node-arg {
+            stroke: #30363d;
+            stroke-width: 1.5px;
+        }
+        .link {
+            stroke: #30363d;
+            stroke-opacity: 0.3;
+        }
+        .node-label {
+            font-size: 11px;
+            fill: #c9d1d9;
+            pointer-events: none;
+        }
+        .tooltip {
+            position: absolute;
+            background: #1c2128;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 12px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s;
+            max-width: 250px;
+        }
+        .tooltip.show { opacity: 1; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🧬 ARG-Drug Class Network</h1>
+        <p>Interactive visualization of 133 Antibiotic Resistance Genes</p>
+    </div>
+
+    <div class="container">
+        <svg id="network"></svg>
+        
+        <div class="sidebar">
+            <div class="stats">
+                <h3 style="color: #58a6ff; margin-bottom: 15px;">Network Statistics</h3>
+                <div class="stat-row">
+                    <span class="stat-label">Total ARGs</span>
+                    <span class="stat-value" id="totalArgs">-</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">Drug Classes</span>
+                    <span class="stat-value" id="totalDrugs">-</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">Connections</span>
+                    <span class="stat-value" id="totalLinks">-</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">Avg Prevalence</span>
+                    <span class="stat-value" id="avgPrev">-</span>
+                </div>
+            </div>
+
+            <div class="legend">
+                <h3 style="color: #58a6ff; margin-bottom: 10px;">Drug Classes</h3>
+                <div id="legendItems"></div>
+            </div>
+
+            <div id="selectedInfo"></div>
+
+            <div class="info-card">
+                <h3>ℹ️ How to Use</h3>
+                <p>• <strong>Drag</strong> nodes to rearrange<br>
+                   • <strong>Hover</strong> to see details<br>
+                   • <strong>Click</strong> for more info<br>
+                   • <strong>Zoom</strong> with mouse wheel<br>
+                   • Large nodes = Drug classes<br>
+                   • Small nodes = ARGs<br>
+                   • Size = Prevalence</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="tooltip" id="tooltip"></div>
+
+    <script>
+        const API_URL = window.location.hostname === 'localhost' 
+            ? 'http://localhost:5000'
+            : 'https://resistoscan-api.onrender.com';
+
+        const width = window.innerWidth - 350;
+        const height = window.innerHeight - 120;
+
+        const svg = d3.select('#network')
+            .attr('width', width)
+            .attr('height', height);
+
+        const g = svg.append('g');
+
+        // Zoom
+        const zoom = d3.zoom()
+            .scaleExtent([0.1, 4])
+            .on('zoom', (event) => {
+                g.attr('transform', event.transform);
+            });
+
+        svg.call(zoom);
+
+        // Load data and create visualization
+        fetch(`${API_URL}/api/network-data`)
+            .then(res => res.json())
+            .then(data => {
+                if (!data.success) {
+                    alert('Error loading network data');
+                    return;
+                }
+
+                createNetwork(data.nodes, data.links);
+                updateStats(data.nodes, data.links);
+                createLegend(data.nodes);
+            })
+            .catch(err => {
+                console.error('Error:', err);
+                alert('Could not connect to server');
+            });
+
+        function createNetwork(nodes, links) {
+            // Force simulation
+            const simulation = d3.forceSimulation(nodes)
+                .force('link', d3.forceLink(links).id(d => d.id).distance(100))
+                .force('charge', d3.forceManyBody().strength(-300))
+                .force('center', d3.forceCenter(width / 2, height / 2))
+                .force('collision', d3.forceCollide().radius(d => d.size + 5));
+
+            // Links
+            const link = g.append('g')
+                .selectAll('line')
+                .data(links)
+                .join('line')
+                .attr('class', 'link')
+                .attr('stroke-width', d => d.strength * 3);
+
+            // Nodes
+            const node = g.append('g')
+                .selectAll('circle')
+                .data(nodes)
+                .join('circle')
+                .attr('r', d => d.size)
+                .attr('fill', d => {
+                    if (d.type === 'drug_class') return d.color;
+                    const drugClass = nodes.find(n => n.name === d.drug_class);
+                    return drugClass ? drugClass.color : '#666';
+                })
+                .attr('class', d => `node-${d.type}`)
+                .call(drag(simulation))
+                .on('mouseover', showTooltip)
+                .on('mouseout', hideTooltip)
+                .on('click', showDetails);
+
+            // Labels for drug classes only
+            const label = g.append('g')
+                .selectAll('text')
+                .data(nodes.filter(d => d.type === 'drug_class'))
+                .join('text')
+                .attr('class', 'node-label')
+                .attr('text-anchor', 'middle')
+                .attr('dy', 4)
+                .text(d => d.name);
+
+            // Update positions
+            simulation.on('tick', () => {
+                link
+                    .attr('x1', d => d.source.x)
+                    .attr('y1', d => d.source.y)
+                    .attr('x2', d => d.target.x)
+                    .attr('y2', d => d.target.y);
+
+                node
+                    .attr('cx', d => d.x)
+                    .attr('cy', d => d.y);
+
+                label
+                    .attr('x', d => d.x)
+                    .attr('y', d => d.y);
+            });
+        }
+
+        function drag(simulation) {
+            function dragstarted(event) {
+                if (!event.active) simulation.alphaTarget(0.3).restart();
+                event.subject.fx = event.subject.x;
+                event.subject.fy = event.subject.y;
+            }
+
+            function dragged(event) {
+                event.subject.fx = event.x;
+                event.subject.fy = event.y;
+            }
+
+            function dragended(event) {
+                if (!event.active) simulation.alphaTarget(0);
+                event.subject.fx = null;
+                event.subject.fy = null;
+            }
+
+            return d3.drag()
+                .on('start', dragstarted)
+                .on('drag', dragged)
+                .on('end', dragended);
+        }
+
+        function showTooltip(event, d) {
+            const tooltip = d3.select('#tooltip');
+            
+            let content = `<strong>${d.name}</strong><br>`;
+            if (d.type === 'arg') {
+                content += `Drug Class: ${d.drug_class}<br>`;
+                content += `Prevalence: ${d.prevalence}%<br>`;
+                content += `Mechanism: ${d.mechanism}`;
+            } else {
+                content += `Priority: ${d.priority}<br>`;
+                content += `Type: Drug Class`;
+            }
+            
+            tooltip.html(content)
+                .style('left', (event.pageX + 10) + 'px')
+                .style('top', (event.pageY - 10) + 'px')
+                .classed('show', true);
+        }
+
+        function hideTooltip() {
+            d3.select('#tooltip').classed('show', false);
+        }
+
+        function showDetails(event, d) {
+            const info = document.getElementById('selectedInfo');
+            
+            if (d.type === 'arg') {
+                info.innerHTML = `
+                    <div class="info-card">
+                        <h3>${d.name}</h3>
+                        <p><strong>Drug Class:</strong> ${d.drug_class}</p>
+                        <p><strong>Prevalence:</strong> ${d.prevalence}%</p>
+                        <p><strong>Mechanism:</strong> ${d.mechanism}</p>
+                        <div class="badge ${d.prevalence > 80 ? 'badge-critical' : d.prevalence > 60 ? 'badge-high' : 'badge-medium'}">
+                            ${d.prevalence > 80 ? 'High Prevalence' : d.prevalence > 60 ? 'Medium Prevalence' : 'Low Prevalence'}
+                        </div>
+                    </div>
+                `;
+            } else {
+                info.innerHTML = `
+                    <div class="info-card">
+                        <h3>${d.name}</h3>
+                        <p><strong>Type:</strong> Antibiotic Drug Class</p>
+                        <p><strong>WHO Priority:</strong> ${d.priority}</p>
+                        <div class="badge badge-${d.priority.toLowerCase()}">
+                            ${d.priority} Priority
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        function updateStats(nodes, links) {
+            const args = nodes.filter(n => n.type === 'arg');
+            const drugs = nodes.filter(n => n.type === 'drug_class');
+            const avgPrev = args.reduce((sum, n) => sum + n.prevalence, 0) / args.length;
+
+            document.getElementById('totalArgs').textContent = args.length;
+            document.getElementById('totalDrugs').textContent = drugs.length;
+            document.getElementById('totalLinks').textContent = links.length;
+            document.getElementById('avgPrev').textContent = avgPrev.toFixed(1) + '%';
+        }
+
+        function createLegend(nodes) {
+            const drugs = nodes.filter(n => n.type === 'drug_class');
+            const legend = document.getElementById('legendItems');
+            
+            legend.innerHTML = drugs.map(d => `
+                <div class="legend-item">
+                    <div class="legend-color" style="background: ${d.color}"></div>
+                    <span>${d.name}</span>
+                </div>
+            `).join('');
+        }
+    </script>
+</body>
+</html>
