@@ -1,0 +1,42 @@
+Gene,Drug_Class
+APH(3'')-Ib,aminoglycoside
+qacL,disinfecting agents and antiseptics
+qacEdelta1,disinfecting agents and antiseptics
+sul1,sulfonamide
+vanY gene in vanB cluster,glycopeptide
+PAU-1,carbapenem; cephalosporin
+sul4,sulfonamide
+mphE,macrolide
+msrE,macrolide; streptogramin
+EreA,macrolide
+qacJ,disinfecting agents and antiseptics
+qacG,disinfecting agents and antiseptics
+sul2,sulfonamide
+AAC(6')-Ib10,aminoglycoside
+vanW gene in vanI cluster,glycopeptide
+APH(6)-Id,aminoglycoside
+rsmA,fluoroquinolone; diaminopyrimidine; phenicol
+VEB-9,monobactam; cephalosporin
+aadA,aminoglycoside
+vanT gene in vanG cluster,glycopeptide
+tet(C),tetracycline
+adeF,fluoroquinolone; tetracycline
+cmlA5,phenicol
+vanY gene in vanA cluster,glycopeptide
+vanH gene in vanO cluster,glycopeptide
+GES-5,carbapenem; cephalosporin; penicillin beta-lactam
+OXA-10,cephalosporin; penicillin beta-lactam
+tet(A),tetracycline
+nimE,nitroimidazole
+Mycobacterium tuberculosis rpsL mutations conferring resistance to Streptomycin,aminoglycoside
+GES-1,carbapenem; cephalosporin; penicillin beta-lactam
+vanY gene in vanM cluster,glycopeptide
+VEB-1,monobactam; cephalosporin
+cmlA9,phenicol
+vanX gene in vanP cluster,glycopeptide
+RSA1-1,carbapenem; cephalosporin
+dfrA1,diaminopyrimidine
+OXA-50,cephalosporin; penicillin beta-lactam
+AAC(6')-Ib9,aminoglycoside
+OXA-1302,cephalosporin; penicillin beta-lactam
+OXA-119,penicillin beta-lactam

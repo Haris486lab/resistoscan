@@ -1,0 +1,134 @@
+,Random Forest,Gradient Boosting,Logistic Regression,Decision Tree,SVM,Mean,Std,Score,Model_Count
+MexR,0.0587283945027307,0.13144373637327625,,0.4230769230769231,,0.20441635131764335,0.1574403897086321,1.2208305993156978,3
+Escherichia coli AcrAB-TolC with MarR mutations conferring resistance to ciprofloxacin and tetracycline,0.050308712495340684,0.05465727777516665,,0.0,,0.034988663423502445,0.024804333373029536,1.0052961810386447,2
+nalC,0.04468778725040841,0.04516300393604821,,0.0,,0.02995026372881887,0.02117892318310715,0.960593268501525,2
+tetR,0.037946858444108604,0.04837992898241437,,0.0,,0.028775595808840992,0.020788433095187915,0.9346235880168412,2
+Escherichia coli gyrA conferring resistance to fluoroquinolones,0.020601320141778845,0.020271021582384245,,0.20512820512820512,,0.08200018228412274,0.0870647643286469,0.8447986542931509,3
+MexS,0.026947842552623856,0.07617709471307942,,0.0,,0.03437497908856776,0.0315394906698891,0.8275252906142464,2
+Escherichia coli soxS with mutation conferring antibiotic resistance,0.033703079153166414,0.1974666107236885,,0.0,,0.07705656329228498,0.08624735369051732,0.8006096826314811,2
+MexZ,0.03802469169484355,2.3815352885602112e-05,,0.28787878787878785,,0.10864243164217234,0.1276852123999314,0.7890639070708689,3
+MexT,0.02171254486824056,0.04972425525922966,,0.0,,0.023812266709156742,0.020354066164252824,0.7844835871511611,2
+Mycolicibacterium smegmatis ndh with mutation conferring resistance to isoniazid,0.030404785638584352,0.25929000237172656,,0.0,,0.0965649293367703,0.11573158541241295,0.7680244309337791,2
+Mycobacterium leprae folP with mutation conferring resistance to dapsone,0.019122006419142662,0.07417285875657685,,0.0,,0.031098288391906505,0.031442823679912885,0.7503901913657413,2
+Escherichia coli UhpT with mutation conferring resistance to fosfomycin,0.0016507936507936514,0.0,,0.08391608391608392,,0.028522292522292523,0.03917512283455351,0.5800146675434632,2
+Escherichia coli fabI mutations conferring resistance to isoniazid and triclosan,0.03518504312113493,0.0,,0.0,,0.011728347707044976,0.016586388391530395,0.44114106565829253,1
+basR,0.03513134840830758,0.0,,0.0,,0.011710449469435861,0.01656107646116101,0.44088760809673855,1
+Clostridioides difficile gyrB conferring resistance to fluoroquinolones,0.03494314667765756,9.194809552989966e-07,,0.0,,0.011648022052870953,0.01647214059504949,0.4400105843744737,2
+Helicobacter pylori pbp1 mutants conferring resistance to amoxicillin,0.03062409957363575,1.2262794630111357e-17,,0.0,,0.010208033191211921,0.014436338984166595,0.41773987493896547,2
+Staphylococcus aureus parE conferring resistance to aminocoumarin,0.0,0.024069882016066305,,0.0,,0.008023294005355435,0.011346651197280408,0.3758572682528121,1
+Escherichia coli EF-Tu mutants conferring resistance to Pulvomycin,0.02020890367862875,1.044800560706415e-07,,0.0,,0.006736336052894941,0.009526543928246211,0.3449835299912169,2
+Escherichia coli uhpA with mutation conferring resistance to fosfomycin,0.019839712671218708,0.0,,0.0,,0.006613237557072903,0.009352530244407613,0.3417246981946436,1
+Clostridioides difficile gyrA conferring resistance to fluoroquinolones,0.018462980469310296,0.0,,0.0,,0.006154326823103432,0.008703532460509398,0.3290462288927327,1
+lmrA,0.01797994433536142,0.0,,0.0,,0.005993314778453807,0.008475827043260475,0.32438681983873735,1
+Neisseria meningititis PBP2 conferring resistance to beta-lactam,0.014774076045783721,7.34942350911478e-07,,0.0,,0.004924936996044877,0.006964393017382683,0.2903102392757882,2
+Escherichia coli fabG mutations conferring resistance to triclosan,0.014206490045740676,0.0,,0.0,,0.004735496681913558,0.006697003632134946,0.28361356242383823,1
+Type A NfxB,0.01414109601048671,0.0,,0.0,,0.004713698670162236,0.006666176588283457,0.28283023674884306,1
+Enterococcus faecium liaR mutant conferring daptomycin resistance,0.013354898085278502,6.611668662871361e-07,,0.0,,0.004451853084048263,0.006295403499365415,0.27319686095662676,2
+nalD,0.0133378437176492,6.54532442265797e-06,,0.0,,0.00444812968069062,0.006285977646290288,0.2731263530687603,2
+Mycobacterium leprae rpoB mutations conferring resistance to rifampicin,0.0,0.013140520534772783,,0.0,,0.004380173511590928,0.0061945007856392745,0.27047289506294103,1
+Streptococcus pneumoniae PBP2x conferring resistance to amoxicillin,0.012568729314654773,0.0,,0.0,,0.004189576438218258,0.005924955819527025,0.2630824528304838,1
+Staphylococcus aureus fusA with mutation conferring resistance to fusidic acid,0.012567935584069871,0.0,,0.0,,0.004189311861356623,0.005924581651341013,0.26307201991732326,1
+Planobispora rosea EF-Tu mutants conferring resistance to inhibitor GE2270A,0.012522269555334033,0.0,,0.0,,0.004174089851778011,0.005903054478948365,0.26247095218742117,1
+Thermus thermophilus uL3 mutations conferring resistance to pleuromutilin antibiotics,0.012480037312591442,0.0,,0.0,,0.004160012437530481,0.0058831460087963635,0.26191363066401285,1
+Borreliella burgdorferi murA with mutation conferring resistance to fosfomycin,0.012431628878777617,0.0,,0.0,,0.004143876292925872,0.005860326054252114,0.26127308346318073,1
+"Escherichia coli AcrAB-TolC with AcrR mutation conferring resistance to ciprofloxacin, tetracycline, and ceftazidime",0.012341860530537142,1.1248971024268297e-06,,0.0,,0.004114328475879856,0.005817743726403346,0.2601084293085444,2
+Helicobacter pylori rpoB mutation conferring resistance to rifampicin,0.012126797627155043,0.0,,0.0,,0.004042265875718347,0.0057166272241588436,0.257196777531554,1
+Pseudomonas aeruginosa gyrA conferring resistance to fluoroquinolones,0.01149319135546198,0.0,,0.0,,0.0038310637851539935,0.005417942363281183,0.24848087344507896,1
+Escherichia coli soxR with mutation conferring antibiotic resistance,0.010889235997622326,6.466857478598909e-06,,0.0,,0.003631900951700308,0.00513171150342894,0.24001917766389458,2
+Bartonella bacilliformis gyrB conferring resistance to aminocoumarin,0.01054547390995989,0.0,,0.0,,0.00351515796998663,0.004971184075038969,0.23479492018586245,1
+Enterococcus faecium EF-Tu mutants conferring resistance to GE2270A,0.010140572012932149,2.276291400591373e-08,,0.0,,0.003380198258615385,0.004780306125041976,0.22869609262614546,2
+Helicobacter pylori frxA mutation conferring resistance to metronidazole,0.009389074999518488,0.0,,0.0,,0.0031296916665061627,0.004426052400819069,0.21694719938272705,1
+Escherichia coli gyrB conferring resistance to aminocoumarin,0.009134177452138893,0.0,,0.0,,0.003044725817379631,0.004305892544645781,0.21283018922990377,1
+eatAv,0.008509781278972686,0.0,,0.0,,0.002836593759657562,0.004011549365850612,0.20244683051047857,1
+Haemophilus influenzae PBP3 conferring resistance to beta-lactam antibiotics,0.007821843118055774,0.0,,0.0,,0.0026072810393519244,0.003687252206769711,0.19048973453286439,1
+Clostridioides difficile rpoB with mutation conferring resistance to rifampicin,0.007466705063325525,0.0,,0.0,,0.002488901687775175,0.003519838522264939,0.18409256025331702,1
+Staphylococcus aureus rpoC conferring resistance to daptomycin,0.0074637171107759335,0.0,,0.0,,0.002487905703591978,0.0035184299879251523,0.18403806550126084,1
+Enterococcus faecium cls conferring resistance to daptomycin,0.0074409244700528255,0.0,,0.0,,0.002480308156684275,0.003507685434047514,0.18362199569975196,1
+Burkholderia dolosa gyrA conferring resistance to fluoroquinolones,0.007430878815067345,0.0,,0.0,,0.0024769596050224483,0.0035029498668730516,0.18343840638105327,1
+Staphylococcus aureus mprF with mutation conferring resistance to daptomycin,0.0008268259072117595,0.0060031270706448715,,0.0,,0.002276650992618877,0.002656548919216325,0.17987928677479043,2
+Escherichia coli EF-Tu mutants conferring resistance to Enacyloxin IIa,0.007132989646070678,0.0,,0.0,,0.002377663215356893,0.0033625235659133384,0.17793519342574704,1
+Neisseria gonorrhoeae PBP2 conferring resistance to beta-lactam antibiotics,0.006969774255817784,0.0,,0.0,,0.002323258085272595,0.003285583093085452,0.17487061493610664,1
+Neisseria gonorrhoeae parC conferring resistance to fluoroquinolones,0.006829126719610102,0.0,,0.0,,0.0022763755732033673,0.0032192812086790307,0.17220116111221145,1
+Mycobacterium leprae gyrA conferring resistance to fluoroquinolones,0.00640652710056161,4.761168064371625e-16,,0.0,,0.002135509033520695,0.003020065837774891,0.16401676152243252,2
+Mycobacterium leprae gyrB conferring resistance to fluoroquinolones,0.006373801144539836,0.0,,0.0,,0.002124600381513279,0.0030046386741591304,0.1633725038231909,1
+Staphylococcus aureus pgsA mutations conferring resistance to daptomycin,0.0063478631513580516,1.7600716998512768e-17,,0.0,,0.002115954383786023,0.002992411386912986,0.16286079010070328,2
+Helicobacter pylori gyrA conferring resistance to fluoroquinolones,0.006341953763828762,0.0,,0.0,,0.0021139845879429207,0.002989625674916578,0.1627440729123626,1
+Enterococcus faecalis cls with mutation conferring resistance to daptomycin,0.006334737607372227,0.0,,0.0,,0.002111579202457409,0.0029862239461402314,0.16260147762853058,1
+Helicobacter pylori pbp2 mutants conferring resistance to amoxicillin,0.006218810063903615,2.828110305015123e-07,,0.0,,0.002073030958311372,0.0029315085211394074,0.1603085173645863,2
+Klebsiella pneumoniae acrR with mutation conferring multidrug antibiotic resistance,0.005867105538736887,0.0,,0.0,,0.001955701846245629,0.0027657800749186696,0.15319877318645478,1
+Enterococcus faecium liaS mutant conferring daptomycin resistance,0.005573280159521435,0.0,,0.0,,0.0018577600531738117,0.0026272694628333665,0.14712286441988692,1
+Pseudomonas mutant PhoP conferring resistance to colistin,0.005245617639088809,0.0,,0.0,,0.001748539213029603,0.002472807869407643,0.14018809808802452,1
+Clostridioides difficile murG with mutation conferring resistance to vancomycin,0.004525667942237689,6.468105702364645e-10,,0.0,,0.0015085561963494197,0.002133420175115195,0.12433066477359483,2
+Escherichia coli murA with mutation conferring resistance to fosfomycin,0.0038774562177730297,0.0,,0.0,,0.0012924854059243433,0.0018278503902275011,0.10927475097184444,1
+LpxA,0.0034548330794645444,0.0,,0.0,,0.0011516110264881815,0.0016286239322379876,0.09903244211858764,1
+Helicobacter pylori rdxA mutation conferring resistance to metronidazole,0.0033733739933101982,0.0,,0.0,,0.0011244579977700662,0.001590223750765323,0.09701779896145803,1
+Escherichia coli EF-Tu mutants conferring resistance to kirromycin,0.0033214561622022165,0.0,,0.0,,0.0011071520540674054,0.001565749450471355,0.09572678872291186,1
+Staphylococcus aureus rpoB mutants conferring resistance to rifampicin,0.003288413485764562,0.0,,0.0,,0.0010961378285881873,0.0015501729834196093,0.09490228675896926,1
+Staphylococcus aureus murA with mutation conferring resistance to fosfomycin,0.0030598669623059867,0.0,,0.0,,0.0010199556541019956,0.0014424351190501633,0.08913798885378012,1
+Mycobacterium tuberculosis mshA mutations conferring resistance to prothionamide,0.002889146500507173,0.0,,0.0,,0.000963048833502391,0.0013619567215666702,0.08476082571889948,1
+Staphylococcus aureus ileS with mutation conferring resistance to mupirocin,0.0028113740103616726,0.0,,0.0,,0.0009371246701205576,0.001325294418118905,0.08274616407510675,1
+Staphylococcus aureus fusE with mutation conferring resistance to fusidic acid,0.0028032356931555354,0.0,,0.0,,0.0009344118977185118,0.0013214579785963006,0.08253459046397181,1
+Staphylococcus aureus parE conferring resistance to fluoroquinolones,0.0026676829268292685,0.0,,0.0,,0.0008892276422764228,0.0012575577917443683,0.07898939172477801,1
+Clostridioides difficile EF-Tu mutants conferring resistance to elfamycin,0.002356889564336373,0.0,,0.0,,0.000785629854778791,0.0011110483956333712,0.07070708602867237,1
+Neisseria gonorrhoeae PBP1 conferring resistance to beta-lactam antibiotics,0.0020573399599436246,1.1719547490865061e-09,,0.0,,0.0006857803772994578,0.0009698390816891994,0.06251508086788246,2
+Escherichia coli parE conferring resistance to fluoroquinolones,0.0018945340373911804,0.0,,0.0,,0.0006315113457970601,0.0008930919100186881,0.05797356260404276,1
+Staphylococcus aureus GlpT with mutation conferring resistance to fosfomycin,0.0018608945585112254,0.0,,0.0,,0.0006202981861704084,0.0008772341075976227,0.05702719827801971,1
+Salmonella serovars soxS with mutation conferring antibiotic resistance,0.0017123287671232878,0.0,,0.0,,0.0005707762557077626,0.0008071995219024515,0.052814446013603876,1
+Neisseria gonorrhoeae pilQ gene conferring resistance to beta-lactam,0.001609538002980626,0.0,,0.0,,0.0005365126676602086,0.0007587434909900362,0.04986759542222694,1
+Neisseria gonorrhoeae mtrR with mutation conferring resistance,0.0015198435143288084,0.0,,0.0,,0.0005066145047762695,0.0007164611035495295,0.04727442202057426,1
+Escherichia coli nfsA mutations conferring resistance to nitrofurantoin,0.0014246846401187235,0.0,,0.0,,0.0004748948800395745,0.0006716027800535103,0.044500801784640005,1
+Pseudomonas mutant PhoQ conferring resistance to colistin,0.001310615989515072,1.7312180654274856e-17,,0.0,,0.00043687199650502983,0.0006178303024784122,0.04114512890670849,2
+Staphylococcus aureus cls conferring resistance to daptomycin,0.0012083451335787782,0.0,,0.0,,0.00040278171119292606,0.0005696193586448791,0.03810749446369527,1
+Campylobacter jejuni gyrA conferring resistance to fluoroquinolones,0.0011914690813773381,0.0,,0.0,,0.0003971563604591127,0.0005616639113440149,0.037603578734647786,1
+Acinetobacter baumannii parC conferring resistance to fluoroquinolones,0.0011786892975011788,0.0,,0.0,,0.0003928964325003929,0.000555639463450061,0.037221471409745986,1
+Mycoplasma genitalium parC mutations confers resistance to Moxifloxacin,0.001165048543689321,0.0,,0.0,,0.000388349514563107,0.0005492091504361536,0.0368131401155366,1
+Haemophilus parainfluenzae gyrA conferring resistance to fluoroquinolones,0.0009079445145018911,0.0,,0.0,,0.00030264817150063035,0.0004280091487636099,0.029022622360905165,1
+Enterococcus faecalis liaS mutant conferring daptomycin resistance,0.00081570996978852,0.0,,0.0,,0.00027190332326284,0.0003845293674126242,0.026183499862409896,1
+Salmonella serovars gyrB conferring resistance to fluoroquinolones,0.0007766990291262135,0.0,,0.0,,0.0002588996763754045,0.0003661394336241023,0.024975515526602432,1
+Shigella flexneri gyrA conferring resistance to fluoroquinolones,0.0007500750075007502,0.0,,0.0,,0.0002500250025002501,0.00035358874946822067,0.024148631798137803,1
+Helicobacter pylori pbp3 conferring resistance to amoxicillin,0.0007377049180327869,0.0,,0.0,,0.0002459016393442623,0.0003477574333704332,0.02376376146499678,1
+Salmonella enterica gyrA conferring resistance to fluoroquinolones,0.0007328990228013028,0.0,,0.0,,0.00024429967426710093,0.00034549191263186354,0.02361411872245636,1
+Escherichia coli PtsI with mutation conferring resistance to fosfomycin,0.000487012987012987,0.0,,0.0,,0.00016233766233766234,0.00022958012376186608,0.0158694355363203,1
+Ureaplasma urealyticum parC conferring resistance to fluoroquinolones,0.0004854368932038836,0.0,,0.0,,0.00016181229773462786,0.00022883714601506396,0.015819227095395343,1
+Staphylococcus aureus gyrA conferring resistance to fluoroquinolones,0.0004821428571428575,0.0,,0.0,,0.00016071428571428584,0.0002272843225242476,0.015714267898109938,1
+Morganella morganii gyrB conferring resistance to fluoroquinolones,0.0,1.009494207771861e-11,,0.0,,3.3649806925728697e-12,4.758801332560164e-12,3.3649806909715424e-10,1
+Enterococcus faecalis gshF with mutation conferring daptomycin resistance,0.0,2.213572775691942e-15,,0.0,,7.37857591897314e-16,1.0434882135611337e-15,7.378575918972369e-14,1
+Ureaplasma urealyticum gyrB conferring resistance to fluoroquinolones,0.0,0.0,,0.0,,0.0,0.0,0.0,0
+Salmonella enterica ramR mutants,0.0,0.0,,0.0,,0.0,0.0,0.0,0
+Streptococcus pneumoniae PBP2b conferring resistance to amoxicillin,0.0,0.0,,0.0,,0.0,0.0,0.0,0
+Salmonella enterica gyrA with mutation conferring resistance to triclosan,0.0,0.0,,0.0,,0.0,0.0,0.0,0
+Klebsiella mutant PhoP conferring antibiotic resistance to colistin,0.0,0.0,,0.0,,0.0,0.0,0.0,0
+Salmonella enterica soxR with mutation conferring antibiotic resistance,0.0,0.0,,0.0,,0.0,0.0,0.0,0
+Pseudomonas aeruginosa parE conferring resistance to fluoroquinolones,0.0,0.0,,0.0,,0.0,0.0,0.0,0
+Escherichia coli folP with mutation conferring resistance to sulfonamides,0.0,0.0,,0.0,,0.0,0.0,0.0,0
+Cutibacterium acnes gyrA conferring resistance to fluoroquinolones,0.0,0.0,,0.0,,0.0,0.0,0.0,0
+Escherichia coli rpoB mutants conferring resistance to rifampicin,0.0,0.0,,0.0,,0.0,0.0,0.0,0
+Escherichia coli parC conferring resistance to fluoroquinolones,0.0,0.0,,0.0,,0.0,0.0,0.0,0
+Enterococcus faecalis liaR mutant conferring daptomycin resistance,0.0,0.0,,0.0,,0.0,0.0,0.0,0
+Helicobacter pylori gyrB conferring resistance to fluoroquinolones,0.0,0.0,,0.0,,0.0,0.0,0.0,0
+Acinetobacter baumannii gyrA conferring resistance to fluoroquinolones,0.0,0.0,,0.0,,0.0,0.0,0.0,0
+Shigella flexneri parC conferring resistance to fluoroquinolones,0.0,0.0,,0.0,,0.0,0.0,0.0,0
+Mycobacterium avium gyrA with mutation conferring resistance to fluoroquinolone,0.0,0.0,,0.0,,0.0,0.0,0.0,0
+Staphylococcus aureus gyrB conferring resistance to aminocoumarin,0.0,0.0,,0.0,,0.0,0.0,0.0,0
+Escherichia coli gyrA with mutation conferring resistance to triclosan,0.0,0.0,,0.0,,0.0,0.0,0.0,0
+Streptomyces cinnamoneus EF-Tu mutants conferring resistance to elfamycin,0.0,0.0,,0.0,,0.0,0.0,0.0,0
+Neisseria gonorrhoeae gyrB conferring resistance to zoliflodacin,0.0,0.0,,0.0,,0.0,0.0,0.0,0
+Neisseria gonorrhoeae porin PIB (por),0.0,0.0,,0.0,,0.0,0.0,0.0,0
+Klebsiella pneumoniae mutant PhoQ conferring resistance to colistin,0.0,0.0,,0.0,,0.0,0.0,0.0,0
+Streptococcus pneumoniae PBP1a conferring resistance to amoxicillin,0.0,0.0,,0.0,,0.0,0.0,0.0,0
+Capnocytophaga gingivalis gyrA conferring resistance to fluoroquinolones,0.0,0.0,,0.0,,0.0,0.0,0.0,0
+Neisseria gonorrhoeae gyrA with mutations conferring resistance to fluoroquinolones,0.0,0.0,,0.0,,0.0,0.0,0.0,0
+Salmonella serovars parE conferring resistance to fluoroquinolones,0.0,0.0,,0.0,,0.0,0.0,0.0,0
+Staphylococcus aureus parC conferring resistance to fluoroquinolones,0.0,0.0,,0.0,,0.0,0.0,0.0,0
+Staphylococcus aureus walK with mutation conferring resistance to daptomycin,0.0,0.0,,0.0,,0.0,0.0,0.0,0
+Klebsiella pneumoniae ramR mutants,0.0,0.0,,0.0,,0.0,0.0,0.0,0
+Haemophilus parainfluenzae parC conferring resistance to fluoroquinolones,0.0,0.0,,0.0,,0.0,0.0,0.0,0
+Escherichia coli ompF with mutation conferring resistance to beta-lactam antibiotics,0.0,0.0,,0.0,,0.0,0.0,0.0,0
+Mycoplasma hominis parC conferring resistance to fluoroquinolones,0.0,0.0,,0.0,,0.0,0.0,0.0,0
+Staphylococcus aureus rpoB mutants conferring resistance to daptomycin,0.0,0.0,,0.0,,0.0,0.0,0.0,0
+Streptococcus pyogenes folP with mutation conferring resistance to sulfonamides,0.0,0.0,,0.0,,0.0,0.0,0.0,0
+Bacillus subtilis rpoB mutants conferring resistance to rifampin,0.0,0.0,,0.0,,0.0,0.0,0.0,0
+Streptococcus pneumoniae parC conferring resistance to fluoroquinolones,0.0,0.0,,0.0,,0.0,0.0,0.0,0
+Pseudomonas aeruginosa gyrA and parC conferring resistance to fluoroquinolones,0.0,0.0,,0.0,,0.0,0.0,0.0,0
+Escherichia coli cyaA with mutation conferring resistance to fosfomycin,0.0,0.0,,0.0,,0.0,0.0,0.0,0
+Enterococcus faecalis YybT with mutation conferring daptomycin resistance,0.0,0.0,,0.0,,0.0,0.0,0.0,0
